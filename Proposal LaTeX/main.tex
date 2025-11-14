@@ -30,6 +30,7 @@ ZhiChong Lin, ZiDi Yao, Ke Ma\\
 }
 
 \date{}
+\setlength{\parindent}{2em} 
 
 \begin{document}
 \maketitle
@@ -37,33 +38,65 @@ ZhiChong Lin, ZiDi Yao, Ke Ma\\
 % ============================================================
 \section{Introduction}
 
-This progress report summarizes the work completed so far for our heart disease 
-prediction project. Our focus in this stage is to perform initial data exploration, 
-clean and preprocess the dataset, and evaluate a set of baseline machine learning 
-models. We document the steps taken to encode the raw clinical features, apply 
-feature selection and dimensionality reduction techniques, and train several models 
-using cross-validation. The report also talks about the feedback received from the TA 
-and outlines the adjustments we plan to do in the next phase. 
+    This project aims to use ML method to predict the likelihood
+of heart disease based on eleven clinical and demographic features. Heart
+disease continues to be a major global health concern, and early detection is
+crucial for reducing severe outcomes. As outlined in our project proposal, the
+goal of this work is to develop a reliable classification model that can
+identify high-risk patients using routinely collected medical measurements.
+
+    In this progress report, we will discuss the steps completed so far, including
+dataset preprocessing, feature encoding, and the development of a Chi-Square +
+PCA feature-engineering pipeline. We also present initial results from models
+such as SVM, Logistic Regression, and Random Forest, and outline feedback from
+the TA along with our planned next steps.
+
+Building on these prior studies, our project adopts a supervised learning pipeline that combines Chi-square feature selection and Principal Component Analysis (PCA) with an RBF-kernel SVM classifier. 
+We first apply a column transformer with median imputation and standardization for numerical features, and most-frequent imputation with one-hot encoding for categorical features;
+Then we use a MinMaxScaler followed by \texttt{SelectKBest} with the Chi-square statistic to keep the top-$k$ informative features, 
+and apply PCA with the number of components chosen using the Kaiser criterion~\cite{GARATEESCAMILA2020100330,kaiser1960factor}. 
+The low-dimensional representation is fed into an RBF-SVM, and the full pipeline is evaluated on the Kaggle Heart Failure Prediction dataset~\cite{heartfailure_kaggle} 
+using stratified $k$-fold cross validation, reporting accuracy, precision, recall, F1-score, and AUC as in previous work.
 
 
 % ============================================================
 \section{Related Work}
-This section summarizes the most relevant previous work.  
-If no identical problem exists, describe the most similar tasks such as:  
-– Medical risk prediction  
-– Heart disease datasets  
-– Classic ML models like logistic regression / SVM in healthcare  
-Cite at least five references (use custom.bib).  
-Length: 0.25–0.5 pages.
 
-% ============================================================
+Our progress in this project builds directly on the foundation built in
+Milestone01, where we considered both the clinical motivation and the technical
+approaches. In that proposal, we discussed the limitations of traditional diagnostic methods and highlighted the
+importance of ML models that can identify  multi-feature interactions such as age, cholesterol level, chest pain type, and 
+ECG-related measurements, which observations align with prior work showing that 
+heart disease prediction is well suited to ML due to its 
+multivariate and non-linear nature.
+
+As we talked about in M1, several existing studies have explored this predictive task using classical and
+modern machine learning techniques. Logistic regression remains a common 
+baseline method, as demonstrated by Awan \cite{musmanaslamawan_heartdisease_logistic},
+who achieved approximately 85\% accuracy on the Kaggle using minimal
+feature engineering. More advanced pipelines integrate supervised feature 
+selection and dimensionality reduction. The Chi-Square + PCA framework proposed 
+by Gárate-Escamila et al. \cite{GARATEESCAMILA2020100330} achieved up to 99\%
+accuracy on multiple UCI heart disease datasets, motivating our decision in
+Milestone~1 to incorporate both Chi-Square filtering and PCA into our own
+preprocessing pipeline.
+
+Moreover, foundational statistic work such as Kaiser factor analysis criterion
+\cite{kaiser1960factor} provides justification for retaining only
+principal components with eigenvalues greater than one, a rule we apply in our
+dimensionality reduction stage. Other work has examined optimization strategies 
+for medical classification models, including scalable L1-regularized training
+\cite{andrew2007scalable} and multi-task predictive structure learning
+\cite{Ando2005}, which highlight broader approaches to improving generalization
+when datasets are small—one of the challenges noted in our proposal.
+
 \section{Dataset and Preprocessing} 
 
 This section will introduce the raw dataset we used, and how we clean and process it. 
 
 \subsection{Dataset Description}
 
-The dataset used in this project is the \textit{Heart Failure Prediction Dataset}
+The dataset we used in this project is the \textit{Heart Failure Prediction Dataset}
 published by Fedesoriano on Kaggle~\cite{heartfailure_kaggle}.  
 It contains \textbf{918 patient observations} and \textbf{12 attributes}, including 
 11 clinical predictor variables and one binary target label indicating the presence 

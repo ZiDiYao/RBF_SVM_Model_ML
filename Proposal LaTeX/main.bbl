@@ -1,5 +1,15 @@
 \begin{thebibliography}{1}
 
+\bibitem{Ando2005}
+Rie~Kubota Ando and Tong Zhang.
+\newblock A framework for learning predictive structures from multiple tasks and unlabeled data.
+\newblock {\em Journal of Machine Learning Research}, 6:1817--1853, December 2005.
+
+\bibitem{andrew2007scalable}
+Galen Andrew and Jianfeng Gao.
+\newblock Scalable training of {L1}-regularized log-linear models.
+\newblock In {\em Proceedings of the 24th International Conference on Machine Learning}, pages 33--40, 2007.
+
 \bibitem{musmanaslamawan_heartdisease_logistic}
 M.Usman~Aslam Awan.
 \newblock Heart disease prediction using logistic regression.

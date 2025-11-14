@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1763155269.36253 "main.aux" "main.bbl" "main" 1763155315.98441 0
+["bibtex main"] 1763157788.033 "main.aux" "main.bbl" "main" 1763157907.37192 0
   "./custom.bib" 1763154655.36141 5053 de02a0710bd1eb41f41faf6e079af6c8 ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1763155315.73565 2857 bf5417e5cdc6dee61a93dc5581f529d1 "pdflatex"
+  "main.aux" 1763157907.11846 3169 2dba33f13fd1902ca746e80a81cb14eb "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1763155315.12523 "/Users/yaozidi/Desktop/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" "main.pdf" "main" 1763155315.98454 0
-  "/Users/yaozidi/Desktop/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" 1763155314.84384 13420 78d29704f9d708abd39a0ebd290886eb ""
+["pdflatex"] 1763157906.48863 "/Users/yaozidi/Desktop/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" "main.pdf" "main" 1763157907.37205 0
+  "/Users/yaozidi/Desktop/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" 1763157906.22424 16146 8d6baa290e5224d6186acb34cf943570 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -103,9 +103,9 @@
   "AUC.png" 1763153506.18342 23874 e24d0d6af511f28c3d37f1c1c464c041 ""
   "confuse_matrix.png" 1763153506.18419 13768 4f9eb18b4a975ee62673ab9567b11599 ""
   "kfoldvalidation.png" 1763153506.18468 15259 de71509b9c4d8458154e27c018cf36e4 ""
-  "main.aux" 1763155315.73565 2857 bf5417e5cdc6dee61a93dc5581f529d1 "pdflatex"
-  "main.bbl" 1763155269.45982 975 07ac8a4c8c3ac4ee8a54f708ce7587c0 "bibtex main"
-  "main.tex" 1763155314.84384 13420 78d29704f9d708abd39a0ebd290886eb ""
+  "main.aux" 1763157907.11846 3169 2dba33f13fd1902ca746e80a81cb14eb "pdflatex"
+  "main.bbl" 1763157788.12965 1444 0acd6f2324ede5fbe6356f0d9b5e9853 "bibtex main"
+  "main.tex" 1763157906.22424 16146 8d6baa290e5224d6186acb34cf943570 ""
   "metrics_output.png" 1763153506.18786 8258 089ba4152596fbfb6a8d8db1b544aa51 ""
   (generated)
   "main.aux"
