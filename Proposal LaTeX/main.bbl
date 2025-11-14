@@ -1,5 +1,11 @@
 \begin{thebibliography}{1}
 
+\bibitem{musmanaslamawan_heartdisease_logistic}
+M.Usman~Aslam Awan.
+\newblock Heart disease prediction using logistic regression.
+\newblock Kaggle Notebook, 2020.
+\newblock Online; accessed: 2025-11-11.
+
 \bibitem{GARATEESCAMILA2020100330}
 Anna~Karen Gárate-Escamila, Amir {Hajjam El Hassani}, and Emmanuel Andrès.
 \newblock Classification models for heart disease prediction using feature
