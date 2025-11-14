@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1763083473.50781 "main.aux" "main.bbl" "main" 1763084349.74159 0
+["bibtex main"] 1763084785.06751 "main.aux" "main.bbl" "main" 1763085131.03927 0
   "./custom.bib" 1763082646.3753 2071 0b966569afb5acbb6dca5a75fec7e92c ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1763084349.5163 2407 1b540d2f16424796779465ec168b52f1 "pdflatex"
+  "main.aux" 1763085130.81777 2529 9784f96950bc66581196582957d4ca35 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1763084348.97988 "/Users/yaozidi/Desktop/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" "main.pdf" "main" 1763084349.74172 2
-  "/Users/yaozidi/Desktop/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" 1763084347.80027 5483 8761eb3d271559786d8845cfca4c3e80 ""
+["pdflatex"] 1763085130.21554 "/Users/yaozidi/Desktop/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" "main.pdf" "main" 1763085131.0394 0
+  "/Users/yaozidi/Desktop/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" 1763085129.93 7353 73ff9764f9e329a0c5545d97dba82ffc ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm" 1136768653 1292 bd42be2f344128bff6d35d98474adfe3 ""
@@ -37,6 +37,7 @@
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/latex-fonts/lasy10.tfm" 1136768653 520 82a3d37183f34b6eb363a161dfc002c2 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/latex-fonts/lasy6.tfm" 1136768653 520 4889cce2180234b97cad636b6039c722 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/latex-fonts/lasy8.tfm" 1136768653 520 7bb3abb160b19e0ed6ac404bb59052b7 ""
+  "/usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb" 1136849748 45758 19968a0990191524e34e1994d4a31cb6 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1136849748 46026 6dab18b61c907687b520c72847215a68 ""
@@ -91,9 +92,9 @@
   "AUC.png" 1763082646.37451 23874 e24d0d6af511f28c3d37f1c1c464c041 ""
   "confuse_matrix.png" 1763082646.37516 13768 4f9eb18b4a975ee62673ab9567b11599 ""
   "kfoldvalidation.png" 1763082646.37551 15259 de71509b9c4d8458154e27c018cf36e4 ""
-  "main.aux" 1763084349.5163 2407 1b540d2f16424796779465ec168b52f1 "pdflatex"
-  "main.bbl" 1763083473.88759 1079 1a230e61c3e4bb028ebc24c2623c5c31 "bibtex main"
-  "main.tex" 1763084347.80027 5483 8761eb3d271559786d8845cfca4c3e80 ""
+  "main.aux" 1763085130.81777 2529 9784f96950bc66581196582957d4ca35 "pdflatex"
+  "main.bbl" 1763084785.1623 49 0eba253fc001332e731e8aba3f23127b "bibtex main"
+  "main.tex" 1763085129.93 7353 73ff9764f9e329a0c5545d97dba82ffc ""
   "metrics_output.png" 1763082646.378 8258 089ba4152596fbfb6a8d8db1b544aa51 ""
   (generated)
   "main.aux"

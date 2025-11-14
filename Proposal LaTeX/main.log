@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.9)  13 NOV 2025 20:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.10.9)  13 NOV 2025 20:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -208,8 +208,7 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count286
 \l__pdf_internal_box=\box54
-)
-No file main.aux.
+) (./main.aux)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
@@ -226,6 +225,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
 LaTeX Font Info:    ... okay on input line 34.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
 LaTeX Font Info:    ... okay on input line 34.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -314,78 +314,55 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [1
-
-{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 94.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 114.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [2]
-<kfoldvalidation.png, id=12, 570.933pt x 354.123pt>
+) [1
+
+{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}] [2]
+<kfoldvalidation.png, id=14, 570.933pt x 354.123pt>
 File: kfoldvalidation.png Graphic file (type png)
 <use kfoldvalidation.png>
-Package pdftex.def Info: kfoldvalidation.png  used on input line 145.
+Package pdftex.def Info: kfoldvalidation.png  used on input line 183.
 (pdftex.def)             Requested size: 422.77664pt x 262.23602pt.
-<metrics_output.png, id=14, 322.95656pt x 109.91063pt>
+<metrics_output.png, id=16, 322.95656pt x 109.91063pt>
 File: metrics_output.png Graphic file (type png)
 <use metrics_output.png>
-Package pdftex.def Info: metrics_output.png  used on input line 151.
+Package pdftex.def Info: metrics_output.png  used on input line 189.
 (pdftex.def)             Requested size: 422.77664pt x 143.89003pt.
-<AUC.png, id=15, 409.7709pt x 312.2064pt>
+<AUC.png, id=17, 409.7709pt x 312.2064pt>
 File: AUC.png Graphic file (type png)
 <use AUC.png>
-Package pdftex.def Info: AUC.png  used on input line 157.
+Package pdftex.def Info: AUC.png  used on input line 195.
 (pdftex.def)             Requested size: 422.77664pt x 322.1288pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<confuse_matrix.png, id=16, 300.6432pt x 281.853pt>
+<confuse_matrix.png, id=18, 300.6432pt x 281.853pt>
 File: confuse_matrix.png Graphic file (type png)
 <use confuse_matrix.png>
-Package pdftex.def Info: confuse_matrix.png  used on input line 163.
+Package pdftex.def Info: confuse_matrix.png  used on input line 201.
 (pdftex.def)             Requested size: 422.77664pt x 396.37201pt.
+ (./main.bbl
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: Empty `thebibliography' environment on input line 3.
 
-[3 <./kfoldvalidation.png> <./metrics_output.png>] (./main.bbl
-./main.bbl:21: Undefined control sequence.
-l.21 \newblock \href
-                     {http://arxiv.org/abs/1503.06733} {Yara parser: {A} fas...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 20--24
-[]\T1/ptm/m/n/10.95 (+20) Mohammad Sadegh Ra-sooli and Joel R. Tetreault. 2015.
- []
-
-[4 <./AUC.png>]) [5 <./confuse_matrix.png>] (./main.aux)
+) [3] [4 <./kfoldvalidation.png> <./metrics_output.png>] [5 <./AUC.png>] [6 <./confuse_matrix.png>] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 6891 strings out of 474116
- 113437 string characters out of 5743682
- 1933187 words of memory out of 5000000
- 29092 multiletter control sequences out of 15000+600000
- 589384 words of font info for 128 fonts, out of 8000000 for 9000
+ 6888 strings out of 474116
+ 113392 string characters out of 5743682
+ 1934187 words of memory out of 5000000
+ 29088 multiletter control sequences out of 15000+600000
+ 589190 words of font info for 128 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,8n,65p,1058b,324s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (5 pages, 112828 bytes).
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (6 pages, 122550 bytes).
 PDF statistics:
- 50 PDF objects out of 1000 (max. 8388607)
- 26 compressed objects within 1 object stream
+ 58 PDF objects out of 1000 (max. 8388607)
+ 31 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  35861 words of extra memory for PDF output out of 42996 (max. 10000000)
 

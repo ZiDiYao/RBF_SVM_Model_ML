@@ -56,13 +56,19 @@ Cite at least five references (use custom.bib).
 Length: 0.25–0.5 pages.
 
 % ============================================================
+% ============================================================
 \section{Dataset and Preprocessing}
-Describe the dataset, number of samples, features, data source, and what preprocessing was required.
+
+In this project, we use the \textit{Heart Failure Prediction Dataset}, 
+which contains 918 patient records and 12 columns: 11 input features and one 
+binary target label. All column names were normalized by removing whitespace to 
+ensure consistency during preprocessing. The dataset includes a variety of 
+clinically relevant attributes commonly used in cardiovascular disease prediction. 
+A summary of the raw features is provided in Table~\ref{tab:rawfeatures}.
 
 \subsection{Dataset Description}
-Present the raw features in a table:
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \begin{tabular}{ll}
 \toprule
@@ -70,38 +76,70 @@ Present the raw features in a table:
 \midrule
 Age & Age of patient (years) \\
 Sex & Biological sex (M/F) \\
-ChestPainType & Chest pain type (ATA, ASY, NAP, TA) \\
+ChestPainType & Type of chest pain (ATA, ASY, NAP, TA) \\
 RestingBP & Resting blood pressure (mm Hg) \\
 Cholesterol & Serum cholesterol (mg/dL) \\
-FastingBS & Fasting blood sugar (0/1) \\
-RestingECG & ECG results (Normal, ST, LVH) \\
+FastingBS & Fasting blood sugar (0 = normal, 1 = high) \\
+RestingECG & Resting ECG results (Normal, ST, LVH) \\
 MaxHR & Maximum heart rate achieved \\
 ExerciseAngina & Exercise-induced angina (Y/N) \\
-Oldpeak & ST depression value \\
-ST\_Slope & Slope of ST segment (Up/Flat/Down) \\
+Oldpeak & ST depression induced by exercise \\
+ST\_Slope & Slope of the ST segment (Up, Flat, Down) \\
 HeartDisease & Target label (1 = disease, 0 = healthy) \\
 \bottomrule
 \end{tabular}
 \caption{Raw dataset features.}
+\label{tab:rawfeatures}
 \end{table}
 
 \subsection{Target Extraction}
-Describe how \texttt{HeartDisease} was extracted as the binary label vector.
+
+The target variable \texttt{HeartDisease} is a binary classification label 
+indicating whether a patient shows clinical signs of heart disease.  
+We extracted this column as a one-dimensional vector and stored it separately 
+in \texttt{processed/y.csv}. The label was converted to integer form  
+(1 = disease, 0 = no disease) for compatibility with machine learning models.
 
 \subsection{Feature Preprocessing}
-Explain your preprocessing:
+
+The input feature matrix was constructed by removing the target label and 
+retaining the remaining 11 columns. Because the dataset includes both numerical 
+and categorical variables, several preprocessing steps were required to convert 
+all features into a fully numeric representation.
+
+\paragraph{Binary Encoding.}
+Three categorical features contain only two possible values and were encoded 
+using standard 0/1 mappings:
 \begin{itemize}
-    \item Removing whitespace in column names
-    \item Encoding binary variables (Sex, ExerciseAngina, FastingBS)
-    \item One-hot encoding for multi-class categorical features  
-          (ChestPainType, RestingECG, ST\_Slope)
-    \item Saved processed data to: \texttt{processed/X\_encoded.csv}
+    \item \textbf{Sex:} M $\rightarrow$ 1,\; F $\rightarrow$ 0
+    \item \textbf{ExerciseAngina:} Y $\rightarrow$ 1,\; N $\rightarrow$ 0
+    \item \textbf{FastingBS:} preserved as integer 0/1
 \end{itemize}
 
-\subsection{Final Processed Dataset}
-State final shape (e.g., 918 rows × 18 columns) and where it is stored.
+\paragraph{One-Hot Encoding for Multi-Class Features.}
+Features with more than two categories were transformed using one-hot encoding:
+\begin{itemize}
+    \item ChestPainType (4 categories)
+    \item RestingECG (3 categories)
+    \item ST\_Slope (3 categories)
+\end{itemize}
+This produced new indicator columns such as 
+\texttt{ChestPainType\_ASY}, \texttt{RestingECG\_Normal}, and 
+\texttt{ST\_Slope\_Up}.  
+All categories were retained (\texttt{drop\_first=False}) to avoid imposing any 
+false ordinal relationships among categorical values.
 
-% ============================================================
+\subsection{Final Processed Dataset}
+
+After preprocessing, the final feature matrix contains 
+\textbf{918 samples and 18 fully numeric columns}.  
+The processed features were saved to \texttt{processed/X\_encoded.csv}, 
+and a list of all generated feature names was stored in 
+\texttt{processed/feature\_names.txt}.  
+This final dataset serves as the input to all models and experiments 
+conducted in the remainder of the project.
+
+
 \section{Model Inputs (Features)}
 Describe the input representation to the model, e.g.:
 
@@ -140,25 +178,25 @@ Explain why accuracy, precision, recall, F1, and AUC-ROC are important in medica
 \subsection{Results}
 Insert your figures:
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\linewidth]{kfoldvalidation.png}
 \caption{5-fold precision scores.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\linewidth]{metrics_output.png}
 \caption{Summary metrics across folds.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\linewidth]{AUC.png}
 \caption{AUC–ROC curves.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.9\linewidth]{confuse_matrix.png}
 \caption{Confusion matrices.}
