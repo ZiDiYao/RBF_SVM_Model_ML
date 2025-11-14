@@ -36,14 +36,15 @@ ZhiChong Lin, ZiDi Yao, Ke Ma\\
 
 % ============================================================
 \section{Introduction}
-This section introduces the problem and motivation of your project.  
-You may adapt the motivation from your original proposal.  
-Typical content includes:  
-(1) What problem you are solving,  
-(2) Why it matters,  
-(3) Why machine learning is suitable,  
-(4) Your project objective.  
-This should be about 0.25–0.5 pages.
+
+This progress report summarizes the work completed so far for our heart disease 
+prediction project. Our focus in this stage is to perform initial data exploration, 
+clean and preprocess the dataset, and evaluate a set of baseline machine learning 
+models. We document the steps taken to encode the raw clinical features, apply 
+feature selection and dimensionality reduction techniques, and train several models 
+using cross-validation. The report also talks about the feedback received from the TA 
+and outlines the adjustments we plan to do in the next phase. 
+
 
 % ============================================================
 \section{Related Work}
@@ -56,13 +57,31 @@ Cite at least five references (use custom.bib).
 Length: 0.25–0.5 pages.
 
 % ============================================================
-\section{Dataset and Preprocessing}
-Describe the dataset, number of samples, features, data source, and what preprocessing was required.
+\section{Dataset and Preprocessing} 
+
+This section will introduce the raw dataset we used, and how we clean and process it. 
 
 \subsection{Dataset Description}
-Present the raw features in a table:
 
-\begin{table}[h]
+The dataset used in this project is the \textit{Heart Failure Prediction Dataset}
+published by Fedesoriano on Kaggle~\cite{heartfailure_kaggle}.  
+It contains \textbf{918 patient observations} and \textbf{12 attributes}, including 
+11 clinical predictor variables and one binary target label indicating the presence 
+of heart disease. This dataset was designed to support research on early detection 
+of cardiovascular risks, particularly heart failure, which remains one of the leading 
+causes of global mortality.
+
+The dataset includes a mixture of demographic features ( Age, Sex), 
+physiological measurements (like RestingBP, Cholesterol, MaxHR), and exercise-induced 
+ECG-related metrics (ExerciseAngina, Oldpeak, ST\_Slope). Those attributes show 
+common risk factors used in medical diagnostics for cardiovascular disease and have 
+been widely adopted in machine learning models for clinical prediction tasks.
+
+A complete list of raw features and their corresponding descriptions is provided in 
+Table~\ref{tab:rawfeatures}.
+
+
+\begin{table}[htbp]
 \centering
 \begin{tabular}{ll}
 \toprule
@@ -70,46 +89,92 @@ Present the raw features in a table:
 \midrule
 Age & Age of patient (years) \\
 Sex & Biological sex (M/F) \\
-ChestPainType & Chest pain type (ATA, ASY, NAP, TA) \\
+ChestPainType & Chest pain type (ATA, NAP, ASY, TA) \\
 RestingBP & Resting blood pressure (mm Hg) \\
 Cholesterol & Serum cholesterol (mg/dL) \\
 FastingBS & Fasting blood sugar (0/1) \\
-RestingECG & ECG results (Normal, ST, LVH) \\
+RestingECG & Resting ECG results (Normal, ST, LVH) \\
 MaxHR & Maximum heart rate achieved \\
 ExerciseAngina & Exercise-induced angina (Y/N) \\
-Oldpeak & ST depression value \\
-ST\_Slope & Slope of ST segment (Up/Flat/Down) \\
+Oldpeak & ST depression value induced by exercise \\
+ST\_Slope & Slope of ST segment (Up, Flat, Down) \\
 HeartDisease & Target label (1 = disease, 0 = healthy) \\
 \bottomrule
 \end{tabular}
 \caption{Raw dataset features.}
+\label{tab:rawfeatures}
 \end{table}
 
 \subsection{Target Extraction}
-Describe how \texttt{HeartDisease} was extracted as the binary label vector.
+
+The target label \texttt{HeartDisease} is a binary indicator representing whether
+a patient shows signs of heart disease.  
+We extract this column and converted it to integer form using:
+\[
+y = \texttt{df['HeartDisease'].astype(int)}.
+\]
+The resulting is a one-dimensional vector , which was saved as \texttt{processed/y.csv}
+for all downstream training and evaluation.
 
 \subsection{Feature Preprocessing}
-Explain your preprocessing:
+
+The feature matrix \(X\) was constructed by removing the target column and
+retaining the remaining 11 raw input attributes.
+Since the dataset includes both numerical and categorical variables, several
+preprocessing steps were required to convert all values into a machine-learning‐
+ready numeric form.
+
+\paragraph{Binary Encoding}
+
+Three features, namely Sex, ExerciseAngina, and FastingBS contain only two possible values and were mapped directly to
+0/1 following our preprocessing script:
+
 \begin{itemize}
-    \item Removing whitespace in column names
-    \item Encoding binary variables (Sex, ExerciseAngina, FastingBS)
-    \item One-hot encoding for multi-class categorical features  
-          (ChestPainType, RestingECG, ST\_Slope)
-    \item Saved processed data to: \texttt{processed/X\_encoded.csv}
+    \item \textbf{Sex:} \texttt{M} $\rightarrow$ 1,\; \texttt{F} $\rightarrow$ 0
+    \item \textbf{ExerciseAngina:} \texttt{Y} $\rightarrow$ 1,\; \texttt{N} $\rightarrow$ 0
+    \item \textbf{FastingBS:} preserved as integer \texttt{0/1}
 \end{itemize}
 
+\paragraph{Ordinal Mapping of Multi-Class Features}
+
+Three categorical features contain more than two categories.
+In the stored processed dataset (\texttt{X\_encoded.csv}), they were converted
+to integer codes according to predefined mappings:
+
+\[
+\text{ChestPainType: } \{\texttt{ATA}, \texttt{NAP}, \texttt{ASY}, \texttt{TA}\}
+\rightarrow \{0,1,2,3\},
+\]
+
+\[
+\text{RestingECG: } \{\texttt{Normal}, \texttt{ST}, \texttt{LVH}\}
+\rightarrow \{0,1,2\},
+\]
+
+\[
+\text{ST\_Slope: } \{\texttt{Up}, \texttt{Flat}, \texttt{Down}\}
+\rightarrow \{0,1,2\}.
+\]
+
+These mappings avoid string-based ambiguity and ensure that all feature columns are numeric at the preprocessing stage.
+
 \subsection{Final Processed Dataset}
-State final shape (e.g., 918 rows × 22 columns) and where it is stored.
+
+After applying the above processing , the final processed feature matrix
+contains:
+
+\[
+\textbf{918 samples} \quad \times \quad \textbf{11 fully numeric features}.
+\]
+
+The cleaned dataset was saved to \texttt{processed/X\_encoded.csv}, and
+the corresponding feature names were exported to
+\texttt{processed/feature\_names.txt} for reproducibility.
+
+This processed dataset serves as the input to the feature selection (Chi-square)
+and dimensionality reduction (PCA) procedures described in the next section.
 
 % ============================================================
-% \section{Model Inputs (Features)}
-% Describe the input representation to the model, e.g.:
-
-% \begin{itemize}
-%     \item The 18-dimensional processed feature vector
-%     \item Whether any normalization was applied
-%     \item Whether feature engineering or selection was performed
-% \end{itemize}
 
 % This section corresponds to Item 3 in the project instructions.
 \section{Model Inputs (Features)}
