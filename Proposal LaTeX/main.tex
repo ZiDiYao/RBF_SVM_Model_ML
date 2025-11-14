@@ -26,7 +26,7 @@
 
 \author{
 ZhiChong Lin, ZiDi Yao, Ke Ma\\
-\texttt{yaoz25@mcmaster.ca, mak11@mcmaster.ca, linz8@mcmaster.ca}
+\texttt{yaoz25@mcmaster.ca, mak11@mcmaster.ca, lin281@mcmaster.ca}
 }
 
 \date{}
@@ -99,33 +99,96 @@ Explain your preprocessing:
 \end{itemize}
 
 \subsection{Final Processed Dataset}
-State final shape (e.g., 918 rows × 18 columns) and where it is stored.
+State final shape (e.g., 918 rows × 22 columns) and where it is stored.
 
 % ============================================================
+% \section{Model Inputs (Features)}
+% Describe the input representation to the model, e.g.:
+
+% \begin{itemize}
+%     \item The 18-dimensional processed feature vector
+%     \item Whether any normalization was applied
+%     \item Whether feature engineering or selection was performed
+% \end{itemize}
+
+% This section corresponds to Item 3 in the project instructions.
 \section{Model Inputs (Features)}
-Describe the input representation to the model, e.g.:
 
+During our data preprocessing phase, we utilize \texttt{scikit-learn} built-in function \texttt{pipeline} to transform our data before feeding into Machine Learning Model
+\vspace{1em}
+The dataset has both numerical and categorical features, in the previous part we mentioned that for each numerical part we standardized them, 
+while for categorical part we used one-hot encoding to transform them into vectors.
+\vspace{1em}
+In result, we have total 22 features after preprocessing, including 6 numerical features and 16 categorical features ``(One-Hot Encoding)''.
+\vspace{1em}
+We then went ahead to further transform our data by using both features selection and dimensionality reduction techniques. Which is so called Chi-PCA method \cite{GARATEESCAMILA2020100330}.
 \begin{itemize}
-    \item The 18-dimensional processed feature vector
-    \item Whether any normalization was applied
-    \item Whether feature engineering or selection was performed
+    \item \textbf{Chi-Square:}  
+    Since in Mathematically, the Chi-square statistic is defined as:
+    \[
+    \chi^2 = \sum_{i}\sum_{j}\frac{(O_{ij} - E_{ij})^2}{E_{ij}}
+    \], where \(O_{ij}\) is the observed frequency and \(E_{ij}\) is the expected frequency. 
+    \vspace{1em}
+    
+    Therefore, It is expecting a positive value for frequency, so we use \texttt{MinMaxScaler} to scale all numerical features to [0,1] range. So that all numerical features and categorical features are non-negative.
+
+    Then we have a Hyperparameters 'k' to select top k features with highest Chi-square statistic with respect to the target label. In here we set k=9, as we found that 9 is the best parameter after conducting grid-search.
+    \item \textbf{PCA:}  
+    After feature selection, we then applied Principal Component Analysis (PCA) to reduce the dimensionality of the selected features. PCA works by identifying the directions (principal components) in which the data varies the most, and projecting the data onto these directions.
+
+    To determine the number of principal components to retain, we adopt the \textbf{Kaiser criterion} \cite{kaiser1960factor}. 
+    This rule suggests keeping only components with eigenvalues greater than 1.0.
+
+    After doing a experiments of calculating eigenvalues for every single increase of principal components, we found that the first five components have eigenvalues greater than 1.0. Thus, we decided to retain five principal components for our final feature representation.   
 \end{itemize}
 
-This section corresponds to Item 3 in the project instructions.
+Hence, each patient sample is represented as a compact (data, 5) feature vector summarizing the most informative physiological and categorical characteristics. 
+This final feature set is then used as input to our machine learning model.
 
 % ============================================================
-\section{Model Implementation}
-Describe the machine learning model(s) used.
+% \section{Model Implementation}
+% Describe the machine learning model(s) used.
 
-Examples:
+% Examples:
+% \begin{itemize}
+%     \item RBF-kernel Support Vector Machine (SVM)
+%     \item Justification for using SVM
+%     \item Hyperparameters used (C, gamma)
+%     \item Training pipeline and libraries (scikit-learn)
+% \end{itemize}
+
+% This section corresponds to Item 4 of the project instructions.
+
+\section{Model Implementation}
+
+We have implemented a supervised learning pipeline for binary classification of heart disease presence. 
+Our main model is a \textbf{Support Vector Machine (SVM)} with a \textbf{Radial Basis Function (RBF)} kernel, implemented using the \texttt{scikit-learn} library. 
+This kernel choice allows the decision boundary to be nonlinear, which is important given the heterogeneous mixture of categorical and numerical medical features in the dataset. 
+
+\textbf{Loss Function:}
+\[
+\min_{\mathbf{w},b} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_{i=1}^n \max(0, 1 - y_i(\mathbf{w}^\top \phi(\mathbf{x}_i) + b))
+\]
+where $C$ is the penalty parameter controlling the trade-off between the margin size and misclassification tolerance, and $\phi(\cdot)$ denotes the nonlinear mapping induced by the \textbf{RBF Kernel:}
+\[
+K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)
+\]
+The model was optimized using the \texttt{libsvm} implementation, which employs a coordinate descent solver with kernel caching for efficiency.
+
+To evaluate our implementation, we compared SVM–RBF against two baseline models: 
 \begin{itemize}
-    \item RBF-kernel Support Vector Machine (SVM)
-    \item Justification for using SVM
-    \item Hyperparameters used (C, gamma)
-    \item Training pipeline and libraries (scikit-learn)
+    \item \textbf{Logistic Regression:} This baseline model was chosen from kaggle, where the author didn't use features selection or dimensionality reduction, and he was able to achieve 85\% accuracy.
+    \item \textbf{Random Forest:} From this paper \cite{GARATEESCAMILA2020100330}, the author has 98\% accuracy by using Random Forest with Chi-PCA method. However, he used a 74 features and around 1000 datapoint of heartdiease dataset from UCL.
 \end{itemize}
 
-This section corresponds to Item 4 of the project instructions.
+With SVM-RBF, we evaluate it's accuracy by using cross-validation, and we was only able to achieve 86\% of accuracy.
+
+We then use Random Forest and Logistic Regression as our model, Randomforest was able to achieve 87\% accuracy, while Logistic Regression was able to achieve 85\% accuracy.
+
+Varies reason can be introduces in here, such as different dataset, the quality of dataset, or minor changes in the preprocessing phase that effect the data values meaning.
+
+In future iterations, we plan to explore a \textbf{neural network architecture} (e.g., a multi-layer perceptron) to capture more complex feature interactions and potentially improve generalization performance. 
+We also intent to change the detail in our preprocessing phase, such as using different order, or different preprocessing tools to present the data in a better way.
 
 % ============================================================
 \section{Evaluation Strategy and Results}
