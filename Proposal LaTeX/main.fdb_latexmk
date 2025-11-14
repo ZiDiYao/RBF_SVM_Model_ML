@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1763151883.64221 "main.aux" "main.bbl" "main" 1763151911.28045 0
-  "./custom.bib" 1763150434 4425 1fb7e2c052868d08106c6141b33f7a4c ""
+["bibtex main"] 1763152210.15683 "main.aux" "main.bbl" "main" 1763152211.33416 0
+  "./custom.bib" 1763152189 4807 022a0c546d29240a02fd3ca63efeb46c ""
   "D:/software/MiKTeX/bibtex/bst/bibtex/plain.bst" 1291864736 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "main.aux" 1763151910 2384 31146c82b06fa0564026ae911800488b "pdflatex"
+  "main.aux" 1763152210 2484 23d99db34ba625561994db7dd6979fd1 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1763151910.28351 "c:/Users/Zhico/Source/4AL3/Project/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" "main.pdf" "main" 1763151911.28091 0
+["pdflatex"] 1763152210.37187 "c:/Users/Zhico/Source/4AL3/Project/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" "main.pdf" "main" 1763152211.33457 0
   "AUC.png" 1763144860 23874 1bd2d806b85784fc81e142ae89c6da52 ""
   "C:/Users/Zhico/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1763144985 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/Zhico/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1763144973 24212853 ea783d74c086d9308b316b50b2a8dbad ""
@@ -98,12 +98,12 @@
   "D:/software/MiKTeX/tex/latex/psnfss/times.sty" 1585926771 888 8e0e5c8cca7b18e0400f97f5a2b90a99 ""
   "D:/software/MiKTeX/tex/latex/psnfss/ts1ptm.fd" 1585253778 653 96f56dc5d1ef1fe1121f1cfeec70ee0c ""
   "D:/software/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
-  "c:/Users/Zhico/Source/4AL3/Project/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" 1763151909 10836 e0012203ba62420ab2afaedaad881fff ""
+  "c:/Users/Zhico/Source/4AL3/Project/RBF_SVM_Model_ML/Proposal LaTeX/main.tex" 1763152207 10881 d52254f98795afd628310f5e158900df ""
   "confuse_matrix.png" 1763144861 13768 cb5d54a37b58acb0242e472d4a3071ab ""
   "kfoldvalidation.png" 1763144861 15259 1d2775e1eb700c11f6c45220fbd4e80e ""
-  "main.aux" 1763151910 2384 31146c82b06fa0564026ae911800488b "pdflatex"
-  "main.bbl" 1763151883 580 eec42355ed6ac0e2a24a31abe39c3986 "bibtex main"
-  "main.tex" 1763151909 10836 e0012203ba62420ab2afaedaad881fff ""
+  "main.aux" 1763152210 2484 23d99db34ba625561994db7dd6979fd1 "pdflatex"
+  "main.bbl" 1763152210 790 c82c38eea1e62a28d5bf1cf540909001 "bibtex main"
+  "main.tex" 1763152207 10881 d52254f98795afd628310f5e158900df ""
   "metrics_output.png" 1763144861 8258 1fc1ef9e3b526a290b1ef7755f58d322 ""
   (generated)
   "main.aux"
