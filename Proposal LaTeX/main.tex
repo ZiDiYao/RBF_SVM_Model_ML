@@ -94,12 +94,44 @@ Describe any features you used for your model, or how your data was input to you
 Describe your model and implementation here. Refer to item 4. This may take around a page.
 
 \section{Results and Evaluation}
+In our evaluation stage, we use stratified K-fold cross-validation. The reason for this choice is that our dataset contains only 918 patient records, and using a fixed train/validation/test split may lead to overfitting due to the small number of data points.
 
-How are you evaluating your model? What results do you have so far? What are your baselines? Refer to item 5. This may take around 0.5 pages.
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{kfoldvalidation.png}
+\caption{5-fold cross validation demonstrating precision (Type II error) of each fold}
+\label{fig:experiments}
+\end{figure}
+
+The metrics used in this project include accuracy, recall, precision, F1-score, and AUC–ROC. Our rationale for choosing these metrics is as follows.
+First, in disease prediction, precision (closely related to Type II error) is especially important. Hospitals cannot afford to misclassify a patient with the disease as healthy. Therefore, minimizing false negatives is crucial.
+In addition, we use the AUC–ROC curve because it is an effective way to evaluate the overall performance of a binary classifier.
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{metrics_output.png}
+\caption{Summarized metrics across 5 folds}
+\label{fig:experiments}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{AUC.png}
+\caption{AUC–ROC curves across 5 folds}
+\label{fig:experiments}
+\end{figure}
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{confuse_matrix.png}
+\caption{Confusion matrices across 5 folds}
+\label{fig:experiments}
+\end{figure}
 
 \section{Feedback and Plans}
 
-Write about your plans for the remainder of the project. This should include a discussion of the feedback you received from your TA, and how you plan to improve your approach. Reflect on your implementation and areas for improvement. Refer to item 6. This may be around 0.5 pages.
+Our TA (Alex Abrehforoush) gave us two main pieces of feedback.
+First, in data preprocessing, our team converted several nominal categories into numbers using label encoding. For example, the four chest-pain types were encoded as 0, 1, 2, and 3. The TA suggested using one-hot encoding instead to examine whether the model performance improves.
+
+The second suggestion concerns model performance: since the RBF-SVM model achieved only 86% accuracy, the TA recommended exploring another approach such as a neural network, which may help overcome the performance bottleneck.
+
+Following the TA’s suggestions, we will first implement one-hot encoding for the nominal categories and compare the performance. Afterward, our group will create a new GitHub branch named neural-network to experiment with a different model architecture.
 
 \section{Template Notes}
 
