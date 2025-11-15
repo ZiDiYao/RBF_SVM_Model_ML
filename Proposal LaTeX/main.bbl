@@ -2,13 +2,16 @@
 
 \bibitem{Ando2005}
 Rie~Kubota Ando and Tong Zhang.
-\newblock A framework for learning predictive structures from multiple tasks and unlabeled data.
-\newblock {\em Journal of Machine Learning Research}, 6:1817--1853, December 2005.
+\newblock A framework for learning predictive structures from multiple tasks
+  and unlabeled data.
+\newblock {\em Journal of Machine Learning Research}, 6:1817--1853, December
+  2005.
 
 \bibitem{andrew2007scalable}
 Galen Andrew and Jianfeng Gao.
 \newblock Scalable training of {L1}-regularized log-linear models.
-\newblock In {\em Proceedings of the 24th International Conference on Machine Learning}, pages 33--40, 2007.
+\newblock In {\em Proceedings of the 24th International Conference on Machine
+  Learning}, pages 33--40, 2007.
 
 \bibitem{musmanaslamawan_heartdisease_logistic}
 M.Usman~Aslam Awan.
@@ -19,18 +22,22 @@ M.Usman~Aslam Awan.
 \bibitem{heartfailure_kaggle}
 Fedesoriano.
 \newblock Heart failure prediction dataset.
-\newblock \url{https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction}, 2020.
+\newblock
+  \url{https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction},
+  2020.
 \newblock Accessed 2025-11-14.
 
 \bibitem{GARATEESCAMILA2020100330}
 Anna~Karen Gárate-Escamila, Amir {Hajjam El Hassani}, and Emmanuel Andrès.
-\newblock Classification models for heart disease prediction using feature selection and pca.
+\newblock Classification models for heart disease prediction using feature
+  selection and pca.
 \newblock {\em Informatics in Medicine Unlocked}, 19:100330, 2020.
 
 \bibitem{kaiser1960factor}
 Henry~F. Kaiser.
 \newblock The application of electronic computers to factor analysis.
-\newblock {\em Educational and Psychological Measurement}, 20(1):141--151, 1960.
+\newblock {\em Educational and Psychological Measurement}, 20(1):141--151,
+  1960.
 \newblock Original work published 1960.
 
 \end{thebibliography}

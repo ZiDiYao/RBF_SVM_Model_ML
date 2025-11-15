@@ -290,14 +290,15 @@ We also intent to change the detail in our preprocessing phase, such as using di
 \section{Evaluation Strategy and Results}
 
 \subsection{Evaluation Method}
-Explain why you used stratified K-fold cross validation  
-(e.g., small dataset size, need for robust evaluation).
+In our evaluation stage, we use stratified K-fold cross-validation. The reason for this choice is that our dataset contains only 918 patient records, and using a fixed train/validation/test split may lead to overfitting due to the small number of data points.
 
 \subsection{Metrics}
-Explain why accuracy, precision, recall, F1, and AUC-ROC are important in medical diagnosis.
+The metrics used in this project include accuracy, recall, precision, F1-score, and AUC–ROC. Our rationale for choosing these metrics is as follows.
+First, in disease prediction, precision (closely related to Type II error) is especially important. Hospitals cannot afford to misclassify a patient with the disease as healthy. Therefore, minimizing false negatives is crucial.
+In addition, we use the AUC–ROC curve because it is an effective way to evaluate the overall performance of a binary classifier.
 
 \subsection{Results}
-Insert your figures:
+The figures are listed in the last page, please check them out
 
 \begin{figure}[h]
 \centering
@@ -325,12 +326,9 @@ Insert your figures:
 
 % ============================================================
 \section{Feedback and Future Plans}
-Summarize TA feedback and your improvements:
-\begin{itemize}
-    \item Replace label encoding with one-hot encoding
-    \item Consider switching from SVM to neural networks for performance gains
-    \item Create a new GitHub branch for experiments
-\end{itemize}
+First, in data preprocessing, our team converted several nominal categories into numbers using label encoding. For example, the four chest-pain types were encoded as 0, 1, 2, and 3. The TA suggested using one-hot encoding instead to examine whether the model performance improves.
+The second suggestion concerns model performance: since the RBF-SVM model achieved only 86% accuracy, the TA recommended exploring another approach such as a neural network, which may help overcome the performance bottleneck.
+Following the TA’s suggestions, we will first implement one-hot encoding for the nominal categories and compare the performance. Afterward, our group will create a new GitHub branch named neural-network to experiment with a different model architecture.
 
 % ============================================================
 \section*{Team Contributions}
