@@ -71,6 +71,8 @@ INPUT D:\software\MiKTeX\tex\latex\amsmath\amsbsy.sty
 INPUT D:\software\MiKTeX\tex\latex\amsmath\amsopn.sty
 INPUT D:\software\MiKTeX\tex\latex\url\url.sty
 INPUT D:\software\MiKTeX\tex\latex\url\url.sty
+INPUT D:\software\MiKTeX\tex\latex\float\float.sty
+INPUT D:\software\MiKTeX\tex\latex\float\float.sty
 INPUT D:\software\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT D:\software\MiKTeX\tex\latex\l3backend\l3backend-pdftex.def
 INPUT .\main.aux
@@ -144,8 +146,6 @@ INPUT D:\software\MiKTeX\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT D:\software\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
 INPUT D:\software\MiKTeX\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT D:\software\MiKTeX\fonts\tfm\adobe\times\ptmb8t.tfm
-INPUT D:\software\MiKTeX\fonts\tfm\adobe\courier\pcrr8t.tfm
-INPUT D:\software\MiKTeX\fonts\tfm\adobe\courier\pcrr8t.tfm
 INPUT D:\software\MiKTeX\fonts\vf\adobe\times\ptmb8t.vf
 INPUT D:\software\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT D:\software\MiKTeX\fonts\vf\adobe\times\ptmri8t.vf
@@ -156,6 +156,8 @@ INPUT D:\software\MiKTeX\tex\latex\psnfss\ts1ptm.fd
 INPUT D:\software\MiKTeX\tex\latex\psnfss\ts1ptm.fd
 INPUT D:\software\MiKTeX\tex\latex\psnfss\ts1ptm.fd
 INPUT D:\software\MiKTeX\fonts\tfm\adobe\times\ptmr8c.tfm
+INPUT D:\software\MiKTeX\fonts\tfm\adobe\courier\pcrr8t.tfm
+INPUT D:\software\MiKTeX\fonts\tfm\adobe\courier\pcrr8t.tfm
 INPUT D:\software\MiKTeX\fonts\vf\adobe\times\ptmr8c.vf
 INPUT D:\software\MiKTeX\fonts\tfm\public\cm\cmbx10.tfm
 INPUT D:\software\MiKTeX\fonts\tfm\public\cm\cmbx8.tfm
