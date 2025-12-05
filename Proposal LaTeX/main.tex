@@ -22,8 +22,8 @@
 \usepackage{url}
 \usepackage{float}
 
-\usepackage{amsmath, amssymb}  % ★ 关键：支持 \text, \mathcal, 对齐公式等
-\usepackage{graphicx}          % 你后面有 \includegraphics 需要它
+\usepackage{amsmath, amssymb}  
+\usepackage{graphicx}          
 \usepackage{hyperref}  
 
 % Title
@@ -47,12 +47,14 @@ ZhiChong Lin, ZiDi Yao, Ke Ma\\
 
 \section{Introduction}
 
+
     This project aims to use ML method to predict the likelihood
 of heart disease based on eleven clinical and demographic features. Heart
 disease continues to be a major global health concern, and early detection is
 crucial for reducing severe outcomes. As outlined in our project proposal, the
 goal of this work is to develop a reliable classification model that can
-identify high-risk patients using routinely collected medical measurements.
+identify high-risk patients using routinely collected medical measurements.Several existing studies have explored this predictive task using classical
+and modern machine learning techniques\cite{vdSchaar2019healthcare}
 
     As we talked about in M1, several existing studies have explored this predictive task using classical and
 modern machine learning techniques. Logistic regression remains a common 
@@ -330,6 +332,8 @@ Z \xrightarrow{\text{RBF-SVM}} \hat{y}.
 \]
 
 \paragraph{Model and Objective.}
+SVMs are widely used in medical classification tasks due to their robustness
+in high-dimensional spaces and ability to model nonlinear boundaries\cite{jayadeva2007twinSVM}
 We use an SVM with RBF kernel:
 \[
 K(\mathbf{x}_i, \mathbf{x}_j)
@@ -721,7 +725,7 @@ The figures are listed in the last page, please check them out
 \caption{Confusion matrices.}
 \end{figure}
 
-\subsection{7.2 Error Analysis}
+\subsection{Error Analysis}
 
 To better understand the behaviour of our PCA + RBF–SVM pipeline, we examined
 the misclassification patterns across the five cross-validation folds. The
@@ -781,7 +785,7 @@ RBF--SVM pipeline (ours)       & 0.86 & 0.86 & 0.90 & 0.88 \\
 \end{tabular}
 \end{table}
 
-\subsection{7.4 Comparison with the Neural Network}
+\subsection{Comparison with the Neural Network}
 
 In addition to the Logistic Regression baseline and our main RBF–SVM model, we
 implemented a three-layer feedforward neural network as an additional nonlinear
@@ -808,7 +812,8 @@ Interestingly, despite its relatively simple structure and limited depth, the
 neural network performs competitively with the SVM pipeline. This suggests that
 the heart disease dataset is moderately linearly separable after appropriate
 encoding, and that both the SVM and MLP models successfully capture the key
-nonlinear relationships needed for accurate classification.
+nonlinear relationships needed for accurate classification.This behaviour is consistent with prior observations that neural networks
+often struggle to outperform classical models on structured tabular datasets\cite{ivanov2020tabular}
 
 However, the SVM still retains an advantage in recall (0.9001 vs. 0.8878), which
 is critical in a medical screening task. Missing a heart disease case carries a
