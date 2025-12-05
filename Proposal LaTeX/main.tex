@@ -20,9 +20,10 @@
 
 % URLs
 \usepackage{url}
+\usepackage{float}
 
 % Title
-\title{Group 3 Progress Report:\\Heart Disease Prediction using Machine Learning}
+\title{Group 3 Final Report:\\Heart Disease Prediction using Machine Learning}
 
 \author{
 ZhiChong Lin, ZiDi Yao, Ke Ma\\
@@ -138,21 +139,14 @@ HeartDisease & Target label (1 = disease, 0 = healthy) \\
 \label{tab:rawfeatures}
 \end{table}
 
-\subsection{Target Extraction}
-
-The target label \texttt{HeartDisease} is a binary indicator representing whether
-a patient shows signs of heart disease.  
-We extract this column and converted it to integer form using:
+Originally, the dataset contains:
 \[
-y = \texttt{df['HeartDisease'].astype(int)}.
+\textbf{918 samples} \quad \times \quad \textbf{11 features}.
 \]
-The resulting is a one-dimensional vector , which was saved as \texttt{processed/y.csv}
-for all downstream training and evaluation.
-
 \subsection{Feature Preprocessing}
 
 The feature matrix \(X\) was constructed by removing the target column and
-retaining the remaining 11 raw input attributes.
+retaining the remaining 18 input attributes.
 Since the dataset includes both numerical and categorical variables, several
 preprocessing steps were required to convert all values into a machine-learning‐
 ready numeric form.
@@ -191,14 +185,53 @@ to integer codes according to predefined mappings:
 
 These mappings avoid string-based ambiguity and ensure that all feature columns are numeric at the preprocessing stage.
 
-\subsection{Final Processed Dataset}
+In contrast from progress report, we adopted feedback from TA to change our way of presenting One-Hot Encoding, instead of present them in one single column to split them across the columns 
+for every single category.
 
-After applying the above processing , the final processed feature matrix
-contains:
+Therefore, after spliting them into one-hot encoding, the final dataset shape changes to 918 x 18.
 
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Feature} & \textbf{Description} \\
+\midrule
+Age & Age of patient (years) \\
+Sex & Biological sex (M/F) \\
+ChestPainType\_0 & ATA \\
+ChestPainType\_1 & NAP \\
+ChestPainType\_2 & ASY \\
+ChestPainType\_3 & TA \\
+RestingBP & Resting blood pressure (mm Hg) \\
+Cholesterol & Serum cholesterol (mg/dL) \\
+FastingBS & Fasting blood sugar (0/1) \\
+RestingECG\_0 & Normal \\
+RestingECG\_1 & ST \\
+RestingECG\_2 & LVH \\
+MaxHR & Maximum heart rate achieved \\
+ExerciseAngina & Exercise-induced angina (Y/N) \\
+Oldpeak & ST depression value induced by exercise \\
+ST\_Slope\_0 & Up \\
+ST\_Slope\_1 & Flat \\
+ST\_Slope\_2 & Down \\
+HeartDisease & Target label (1 = disease, 0 = healthy) \\
+\bottomrule
+\end{tabular}
+\caption{One-Hot Encoding Table.}
+\label{tab:rawfeatures}
+\end{table}
+
+
+\subsection{Target Label Extraction}
+
+The target label \texttt{HeartDisease} is a binary indicator representing whether
+a patient shows signs of heart disease.  
+We extract this column and converted it to integer form using:
 \[
-\textbf{918 samples} \quad \times \quad \textbf{11 fully numeric features}.
+y = \texttt{df['HeartDisease'].astype(int)}.
 \]
+The resulting is a one-dimensional vector , which was saved as \texttt{processed/y.csv}
+for all downstream training and evaluation.
 
 The cleaned dataset was saved to \texttt{processed/X\_encoded.csv}, and
 the corresponding feature names were exported to
@@ -215,20 +248,13 @@ During our data preprocessing phase, we utilize \texttt{scikit-learn} built-in f
 The dataset has both numerical and categorical features, in the previous part we mentioned that for each numerical part we standardized them, 
 while for categorical part we used one-hot encoding to transform them into vectors.
 \vspace{1em}
-In result, we have total 22 features after preprocessing, including 6 numerical features and 16 categorical features ``(One-Hot Encoding)''.
+In result, we have total 18 features after preprocessing, including 8 numerical features and 10 categorical features ``(One-Hot Encoding)''.
 \vspace{1em}
-We then went ahead to further transform our data by using both features selection and dimensionality reduction techniques. Which is so called Chi-PCA method \cite{GARATEESCAMILA2020100330}.
-\begin{itemize}
-    \item \textbf{Chi-Square:}  
-    Since in Mathematically, the Chi-square statistic is defined as:
-    \[
-    \chi^2 = \sum_{i}\sum_{j}\frac{(O_{ij} - E_{ij})^2}{E_{ij}}
-    \], where \(O_{ij}\) is the observed frequency and \(E_{ij}\) is the expected frequency. 
-    \vspace{1em}
-    
-    Therefore, It is expecting a positive value for frequency, so we use \texttt{MinMaxScaler} to scale all numerical features to [0,1] range. So that all numerical features and categorical features are non-negative.
+Something different from progress report, as we realize our dataset is way too easy compare to the heart diease dataset from the paper. So, this time we decided
+to only use PCA method as our feature engineering method, instead of using Chi-square + PCA method \cite{GARATEESCAMILA2020100330}.
+\vspace{1em}
 
-    Then we have a Hyperparameters 'k' to select top k features with highest Chi-square statistic with respect to the target label. In here we set k=9, as we found that 9 is the best parameter after conducting grid-search.
+\begin{itemize}
     \item \textbf{PCA:}  
     After feature selection, we then applied Principal Component Analysis (PCA) to reduce the dimensionality of the selected features. PCA works by identifying the directions (principal components) in which the data varies the most, and projecting the data onto these directions.
 
@@ -289,46 +315,46 @@ We also intent to change the detail in our preprocessing phase, such as using di
 % ============================================================
 \section{Evaluation Strategy and Results}
 
+In turns of method evalution, we first split the dataset into training and validaion. 
+Training dataset with 80\% of the data, while validation dataset with 20\% of the data.
 \subsection{Evaluation Method}
 In our evaluation stage, we use stratified K-fold cross-validation. The reason for this choice is that our dataset contains only 918 patient records, and using a fixed train/validation/test split may lead to overfitting due to the small number of data points.
 
 \subsection{Metrics}
-The metrics used in this project include accuracy, recall, precision, F1-score, and AUC–ROC. Our rationale for choosing these metrics is as follows.
+\[
+\textbf{SVM with RBF Kernel Model Performance}:
+\]
+Same as progress report, we have in total six metrics to evaluate our model performance. The metrics used in this project include \textbf{accuracy, recall, precision, F1-score, and AUC–ROC and Confusion Matrix}. Our rationale for choosing these metrics is as follows.
 First, in disease prediction, precision (closely related to Type II error) is especially important. Hospitals cannot afford to misclassify a patient with the disease as healthy. Therefore, minimizing false negatives is crucial.
 In addition, we use the AUC–ROC curve because it is an effective way to evaluate the overall performance of a binary classifier.
 
 \subsection{Results}
 The figures are listed in the last page, please check them out
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{kfoldvalidation.png}
 \caption{5-fold precision scores.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{metrics_output.png}
 \caption{Summary metrics across folds.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{AUC.png}
 \caption{AUC–ROC curves.}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{confuse_matrix.png}
 \caption{Confusion matrices.}
 \end{figure}
 
-% ============================================================
-\section{Feedback and Future Plans}
-First, in data preprocessing, our team converted several nominal categories into numbers using label encoding. For example, the four chest-pain types were encoded as 0, 1, 2, and 3. The TA suggested using one-hot encoding instead to examine whether the model performance improves.
-The second suggestion concerns model performance: since the RBF-SVM model achieved only 86% accuracy, the TA recommended exploring another approach such as a neural network, which may help overcome the performance bottleneck.
-Following the TA’s suggestions, we will first implement one-hot encoding for the nominal categories and compare the performance. Afterward, our group will create a new GitHub branch named neural-network to experiment with a different model architecture.
 
 % ============================================================
 \section*{Team Contributions}
