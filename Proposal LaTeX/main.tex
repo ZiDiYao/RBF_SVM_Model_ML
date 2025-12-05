@@ -74,6 +74,7 @@ stratified 5-fold cross validation with standard metrics (accuracy, precision, r
 
 % ============================================================
 
+
 \section{Dataset and Preprocessing} 
 
 This section will introduce the raw dataset we used, and how we clean and process it. 
@@ -325,8 +326,7 @@ our original plan (PCA + SVM with additional baselines), but refined the
 details of preprocessing and evaluation in response to TA feedback and empirical
 results.
 
-\section{Evaluation Strategy and Results (Error Anaysis) and Baseline}
-
+\section{Results (Error Anaysis) and Baseline}
 
 
 % =========================================================
@@ -356,6 +356,30 @@ The figures are listed in the last page, please check them out
 \includegraphics[width=0.9\linewidth]{confuse_matrix.png}
 \caption{Confusion matrices.}
 \end{figure}
+
+\subsection{Comparison with the Logistic Regression Baseline}
+
+To put the performance of our proposed RBF--kernel SVM pipeline into context, we trained a simple Logistic Regression model as a baseline on the same dataset of 918 patients. For the baseline we used the integer–encoded features: sex, chest pain type, resting ECG, exercise–induced angina, and ST segment slope were mapped to small integer codes, and no additional feature selection or dimensionality reduction was applied. 
+The model was trained with an 80/20 stratified train--test split and evaluated using the same 5-fold stratified cross-validation protocol as our main model.
+
+On the hold-out test set, the Logistic Regression baseline achieved an accuracy of approximately \textbf{0.87}, with macro-averaged precision, recall and F1-score of about \textbf{0.88}, \textbf{0.87} and \textbf{0.87}, respectively. Over 5-fold stratified cross-validation on the full dataset, the baseline obtained a mean accuracy of \textbf{0.85}.
+
+Our full RBF--SVM pipeline, which combines standardisation, PCA (5 components) and an RBF kernel, achieved a higher mean cross-validation accuracy of \textbf{0.86}, together with a mean recall of \textbf{0.90}, precision of \textbf{0.86}, and F1-score of \textbf{0.88} across the five folds. The corresponding ROC--AUC of the SVM model is around \textbf{0.87}.
+
+The below table summarises the key metrics. Although the absolute gain in accuracy over Logistic Regression is modest (about 1--2 percentage points), the improvement in Recall and F1-score for the positive (heart disease) class is clinically important, because missing a patient with heart disease is more costly than producing an additional false alarm. This observation justifies the additional complexity of the SVM-based pipeline over the simple linear baseline.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccc}
+\toprule
+Model & CV Accuracy & Precision & Recall & F1-score \\
+\midrule
+Logistic Regression (baseline) & 0.85 & 0.88\textsuperscript{*} & 0.87\textsuperscript{*} & 0.87\textsuperscript{*} \\
+RBF--SVM pipeline (ours)       & 0.86 & 0.86 & 0.90 & 0.88 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 
 
 % ============================================================

@@ -193,6 +193,8 @@ INPUT .\confuse_matrix.png
 INPUT .\main.bbl
 INPUT .\main.bbl
 INPUT main.bbl
+INPUT D:\software\MiKTeX\fonts\vf\adobe\times\ptmr8t.vf
+INPUT D:\software\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT main.aux
 INPUT D:\software\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx10.pfb
 INPUT D:\software\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx10.pfb
