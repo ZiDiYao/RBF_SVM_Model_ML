@@ -46,13 +46,7 @@ crucial for reducing severe outcomes. As outlined in our project proposal, the
 goal of this work is to develop a reliable classification model that can
 identify high-risk patients using routinely collected medical measurements.
 
-    In this progress report, we will discuss the steps completed so far, including
-dataset preprocessing, feature encoding, and the development of a Chi-Square +
-PCA feature-engineering pipeline. We also present initial results from models
-such as SVM, Logistic Regression, and Random Forest, and outline feedback from
-the TA along with our planned next steps.
-
-Building on these prior studies, our project uses a supervised learning
+    Building on prior studies, our project uses a supervised learning
 pipeline based on Principal Component Analysis (PCA) and an RBF-kernel SVM
 classifier. We preprocess the data with a column transformer that standardizes
 numerical features and applies one-hot encoding to categorical features, then
@@ -65,8 +59,8 @@ stratified 5-fold cross validation with standard metrics (accuracy, precision, r
 % ============================================================
 \section{Related Work}
 
-Our progress in this project builds directly on the foundation built in
-Milestone01, where we considered both the clinical motivation and the technical
+Our project builds directly on the foundation built in
+Process Report and TA's Feedback, where we considered both the clinical motivation and the technical
 approaches. In that proposal, we discussed the limitations of traditional diagnostic methods and highlighted the
 importance of ML models that can identify  multi-feature interactions such as age, cholesterol level, chest pain type, and 
 ECG-related measurements, which observations align with prior work showing that 
