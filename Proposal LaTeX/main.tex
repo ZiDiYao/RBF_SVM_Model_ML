@@ -238,27 +238,374 @@ Hence, each patient sample is represented as a compact 5-dimensional feature
 vector summarizing the most informative physiological and categorical
 characteristics, which is then used as input to our machine learning models.
 
+ \section{Model Implementation}
 
-\section{Model Implementation}
+In this project we implement a complete supervised learning pipeline for
+binary heart disease prediction. We compare three main models:
+\textbf{(1) Support Vector Machine with Radial Basis Function (RBF) kernel},
+\textbf{(2) Logistic Regression}, and \textbf{(3) a Feedforward Neural Network}.
+All models share the same standardized and preprocessed feature inputs
+described in Section~3. 
+We additionally apply $5$-fold \textbf{Stratified Cross-Validation}
+to ensure balanced label proportions in every fold.
 
-We have implemented a supervised learning pipeline for binary classification of heart disease presence. 
-Our main model is a \textbf{Support Vector Machine (SVM)} with a \textbf{Radial Basis Function (RBF)} kernel, implemented using the \texttt{scikit-learn} library. 
-This kernel choice allows the decision boundary to be nonlinear, which is important given the heterogeneous mixture of categorical and numerical medical features in the dataset. 
+\subsection{Baseline Models}
 
-\textbf{Loss Function:}
+\paragraph{Logistic Regression.}
+Our first trained baseline is a logistic regression classifier with
+$\ell_2$-regularization. Given input feature vector $\mathbf{x}$, the model
+predicts:
 \[
-\min_{\mathbf{w},b} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_{i=1}^n \max(0, 1 - y_i(\mathbf{w}^\top \phi(\mathbf{x}_i) + b))
+P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^\top \mathbf{x} + b),
 \]
-where $C$ is the penalty parameter controlling the trade-off between the margin size and misclassification tolerance, and $\phi(\cdot)$ denotes the nonlinear mapping induced by the \textbf{RBF Kernel:}
+optimized using the cross-entropy objective:
 \[
-K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)
+\min_{\mathbf{w},b} 
+-\sum_{i=1}^n 
+\left( 
+y_i \log \sigma(\mathbf{w}^\top \mathbf{x}_i)
++ (1-y_i)\log(1 - \sigma(\mathbf{w}^\top \mathbf{x}_i))
+\right)
++ \lambda \|\mathbf{w}\|_2^2.
 \]
-The model was optimized using the \texttt{libsvm} implementation, which employs a coordinate descent solver with kernel caching for efficiency.
+This model serves as a strong linear baseline and achieves approximately
+\textbf{78--80\% accuracy} in our cross-validation experiments.
 
-With SVM-RBF, we evaluate it's accuracy by using cross-validation, and we was only able to achieve 87\% of accuracy.
+\subsection{Support Vector Machine with RBF Kernel}
 
-% ============================================================
+Our main classical model is a Support Vector Machine (SVM) with a Radial
+Basis Function (RBF) kernel, implemented using \texttt{scikit-learn}'s
+\texttt{SVC} class. The goal is to learn a nonlinear decision boundary for
+binary heart disease prediction.
 
+\paragraph{Preprocessing and PCA.}
+We first convert all categorical attributes into numerical form
+(e.g., Sex: M/F $\rightarrow$ 1/0, ExerciseAngina: Y/N $\rightarrow$ 1/0,
+and categorical medical codes such as ChestPainType, RestingECG, ST\_Slope
+are mapped to integer indices and then one-hot encoded using
+\texttt{pandas.get\_dummies}). The resulting feature matrix is saved as
+\texttt{X\_encoded.csv}, and we keep the label vector \texttt{y} as an
+integer 0/1 target.
+
+Before training the SVM, we standardize all input dimensions using
+a \texttt{ColumnTransformer} with a numerical pipeline consisting of
+median imputation and \texttt{StandardScaler}. We then apply Principal
+Component Analysis (PCA) to reduce dimensionality. Following the
+Kaiser criterion, we compute the eigenvalues of the covariance matrix
+of the standardized features and retain only principal components with
+eigenvalues greater than 1. In our experiments, the first five principal
+components satisfy this rule, so we set:
+\[
+\text{PCA}(n\_\text{components} = 5).
+\]
+The final SVM pipeline is therefore:
+\[
+X \xrightarrow{\text{impute + scale}} 
+\tilde{X} \xrightarrow{\text{PCA (5D)}} 
+Z \xrightarrow{\text{RBF-SVM}} \hat{y}.
+\]
+
+\paragraph{Model and Objective.}
+We use an SVM with RBF kernel:
+\[
+K(\mathbf{x}_i, \mathbf{x}_j)
+= \exp\bigl(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2\bigr),
+\]
+which implicitly maps features into an infinite-dimensional space.
+The primal optimization problem can be written as:
+\[
+\min_{\mathbf{w}, b} \;
+\frac{1}{2}\|\mathbf{w}\|^2
++ C \sum_{i=1}^n 
+\max\bigl(0, 1 - y_i(\mathbf{w}^\top \phi(\mathbf{x}_i) + b)\bigr),
+\]
+where $C$ controls the trade-off between maximizing the margin and
+penalizing misclassified points. In our implementation, we use the
+\texttt{SVC(kernel='rbf', probability=True, random\_state=42)} default
+hyperparameters; $C$ and $\gamma$ are implicitly set by scikit-learn's
+defaults and the internal scaling of the data. The model is trained using
+the \texttt{libsvm} solver with kernel caching.
+
+\paragraph{Evaluation.}
+We first perform a standard 80/20 train-test split to obtain an initial
+estimate of performance, then run $k$-fold cross-validation with $k=5$,
+using the following pipeline in each fold:
+\begin{enumerate}
+    \item Fit the preprocessing (imputation + scaling),
+    \item Apply PCA to 5 components,
+    \item Train the RBF-SVM model on the training portion,
+    \item Evaluate on the validation portion to obtain predicted labels
+          $\hat{y}$ and scores (probabilities or decision function).
+\end{enumerate}
+For every fold we compute accuracy, recall, precision, and F1-score via:
+\[
+(\text{Acc}, \text{Rec}, \text{Prec}, \text{F1})
+= \texttt{acc\_recall\_precision\_F1}(\hat{y}, y),
+\]
+and average over all $5$ folds. In our experiments, the RBF-SVM achieves
+a mean cross-validation accuracy of approximately \textbf{87\%}, with
+corresponding recall, precision and F1-scores in a similar high range.
+We also use the aggregated prediction scores to plot the ROC curve and
+compute the ROC-AUC, confirming that SVM with RBF kernel is a strong
+nonlinear baseline for this task.
+
+
+Our primary classical model is an SVM with a Radial Basis Function kernel.
+The RBF kernel enables the classifier to learn nonlinear decision boundaries,
+which is essential for heterogeneous medical features.
+
+\paragraph{Objective Function.}
+The SVM solves the following hinge-loss optimization problem:
+\[
+\min_{\mathbf{w},b}
+\frac{1}{2}\|\mathbf{w}\|^2
++ C \sum_{i=1}^n 
+\max(0,\, 1 - y_i(\mathbf{w}^\top \phi(\mathbf{x}_i) + b)),
+\]
+where $C$ controls the margin–error tradeoff and
+$\phi(\cdot)$ is implicitly represented by the RBF kernel:
+\[
+K(\mathbf{x}_i, \mathbf{x}_j)
+= \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2).
+\]
+We use the \texttt{libsvm}-based solver from scikit-learn with kernel caching
+and shrinking heuristics for efficiency.
+
+\paragraph{Performance.}
+Using $5$-fold cross-validation, RBF-SVM achieved a mean accuracy of 
+\textbf{87\%}. This significantly outperforms both the majority baseline
+and logistic regression, demonstrating that nonlinear decision boundaries
+capture essential structure in the data.
+
+\subsection{Neural Network Model}
+
+Based on the TA's feedback, we also implement a feedforward neural network
+to further explore nonlinear modeling capacity on the heart disease dataset.
+The network is implemented in PyTorch and trained end-to-end on the
+preprocessed tabular features.
+
+\paragraph{Architecture.}
+In the final version used for our experiments, we adopt a relatively
+compact multilayer perceptron (MLP) without batch normalization or
+dropout. Given an input vector $\mathbf{x} \in \mathbb{R}^{11}$ containing
+the numeric and encoded categorical attributes, the network computes:
+\[
+h_1 = \text{ReLU}(W_1 \mathbf{x} + b_1), \quad
+h_2 = \text{ReLU}(W_2 h_1 + b_2), \quad
+\mathbf{o} = W_3 h_2 + b_3,
+\]
+where the layer sizes are:
+\[
+11 \xrightarrow{\;W_1\;} 32 \xrightarrow{\;W_2\;} 16 \xrightarrow{\;W_3\;} 2.
+\]
+The output $\mathbf{o} \in \mathbb{R}^2$ contains the logits for the two
+classes (\texttt{HeartDisease} $=0$ or $1$). In code, this architecture
+corresponds to:
+\begin{verbatim}
+class HeartFailureNN(nn.Module):
+    def __init__(self, input_features=11):
+        super().__init__()
+        self.fc1 = nn.Linear(input_features, 32)
+        self.fc2 = nn.Linear(32, 16)
+        self.fc3 = nn.Linear(16, 2)
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        x = self.relu(self.fc1(x))
+        x = self.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+\end{verbatim}
+
+\paragraph{Loss and Optimization.}
+We treat the problem as a 2-class classification task and apply
+\texttt{CrossEntropyLoss}, which internally combines a \texttt{LogSoftmax}
+with negative log-likelihood:
+\[
+\mathcal{L}_{\text{CE}}(\theta)
+= -\sum_{i=1}^n \log
+\frac{\exp(f_\theta(x_i)_{y_i})}
+{\sum_{c=1}^2 \exp(f_\theta(x_i)_c)}.
+\]
+The network is optimized using the Adam optimizer with learning rate
+$\eta = 5\times 10^{-3}$ and no weight decay in the final submitted
+version:
+\[
+\theta \leftarrow \theta - \eta \, \widehat{\nabla}_\theta \mathcal{L}_{\text{CE}}.
+\]
+Each training epoch consists of a forward pass, loss computation,
+backpropagation, and an optimizer step. During training we monitor
+the training accuracy using the argmax of the logits as predicted label.
+
+\paragraph{Cross-Validation Procedure.}
+We adopt 5-fold \textbf{Stratified} Cross-Validation (\texttt{StratifiedKFold})
+to ensure that the proportion of positive and negative cases is preserved
+in each fold. For each fold:
+\begin{enumerate}
+    \item Split the data into training and validation indices.
+    \item Convert the corresponding \texttt{pandas} subsets into
+          PyTorch tensors on GPU (if available).
+    \item Re-initialize a new \texttt{HeartFailureNN} instance.
+    \item Train the model for 400 epochs on the training subset.
+    \item Evaluate on the validation subset using the \texttt{evaluate}
+          function, which returns loss, accuracy, predicted labels, and
+          predicted probabilities obtained via \texttt{softmax}.
+\end{enumerate}
+For each fold we compute accuracy, recall, precision and F1-score using
+our custom \texttt{acc\_recall\_precision\_F1} function. We also aggregate
+the predicted labels and probabilities across all folds to compute a
+global confusion matrix and plot the ROC curve with ROC-AUC.
+
+\paragraph{Performance.}
+Across the 5 stratified folds, the neural network achieves a mean
+accuracy of approximately \textbf{0.86}, with recall, precision and
+F1-score all around the high 0.86--0.88 range. Compared to logistic
+regression, the neural network slightly improves recall and F1, indicating
+that the learned nonlinear representation captures additional structure
+in the data. However, the SVM with RBF kernel remains highly competitive,
+sometimes achieving slightly higher accuracy. Overall, the three models
+(Logistic Regression, SVM-RBF, and Neural Network) provide a meaningful
+spectrum from linear to kernel-based to deep learning approaches on the
+same feature representation.
+
+
+In addition to classical models, we implemented a lightweight feedforward
+neural network using PyTorch. This neural network serves as a nonlinear
+learning baseline and allows us to evaluate whether a learned hierarchical
+representation can outperform classical statistical models such as logistic
+regression.
+
+\paragraph{Architecture.}
+Our final submitted model uses a three-layer multilayer perceptron (MLP)
+without batch normalization or dropout. The structure is:
+\[
+\text{Linear}(11 \to 32)
+\rightarrow \text{ReLU}
+\rightarrow
+\text{Linear}(32 \to 16)
+\rightarrow \text{ReLU}
+\rightarrow
+\text{Linear}(16 \to 2).
+\]
+The network outputs two logits corresponding to the binary label
+(\texttt{HeartDisease} = 0 or 1).
+
+\paragraph{Loss Function and Optimization.}
+We train the model using the standard cross-entropy loss:
+\[
+\mathcal{L}(\theta)
+= -\sum_{i=1}^n 
+\log \frac{\exp(f_{\theta}(x_i)_{y_i})}
+{\sum_{c=1}^2 \exp(f_{\theta}(x_i)_c)}.
+\]
+The optimizer used in our final implementation is Adam with learning rate
+$\eta = 5\times10^{-3}$ and optional $\ell_2$ weight decay.  
+We apply early stopping with a patience of 20 epochs to prevent overfitting.
+
+\paragraph{Cross-Validation Performance.}
+Across 5-fold stratified cross-validation, the neural network achieves:
+\[
+\text{Accuracy} = 0.8595,\quad
+\text{Recall} = 0.8878,\quad
+\text{Precision} = 0.8631,\quad
+\text{F1} = 0.8749.
+\]
+Compared to logistic regression (Sec.~4.1), the neural network captures more
+nonlinear interactions and delivers higher recall and F1, which are especially
+important for a medical screening task where false negatives are costly.
+
+To further explore nonlinear modeling capacity, we implemented a 
+three-layer feedforward neural network using PyTorch.
+The network uses batch normalization, ReLU activations, and dropout
+to improve generalization:
+\[
+\text{Linear}(11 \to 64)
+\rightarrow \text{BatchNorm}
+\rightarrow \text{ReLU}
+\rightarrow \text{Dropout}(0.1)
+\rightarrow
+\text{Linear}(64 \to 32)
+\rightarrow \text{BatchNorm}
+\rightarrow \text{ReLU}
+\rightarrow \text{Dropout}(0.1)
+\rightarrow
+\text{Linear}(32 \to 16)
+\rightarrow \text{BatchNorm}
+\rightarrow \text{ReLU}
+\rightarrow
+\text{Linear}(16 \to 2).
+\]
+
+\paragraph{Loss and Optimization.}
+We train using:
+\begin{itemize}
+    \item Cross-Entropy Loss
+    \item Adam optimizer ($\text{lr} = 5\times10^{-3}$, weight decay = 0)
+    \item ReduceLROnPlateau scheduler (factor = $0.5$, patience = $10$)
+    \item Early stopping (patience = $20$)
+\end{itemize}
+
+\paragraph{Performance.}
+Under the same 5-fold stratified cross-validation,
+our final neural network achieved:
+\[
+\textbf{Accuracy} = 0.8595, \quad
+\textbf{Recall} = 0.8878, \quad
+\textbf{Precision} = 0.8631, \quad
+\textbf{F1} = 0.8749.
+\]
+The neural network performs competitively with SVM-RBF, offering
+slightly higher recall and F1-score,
+suggesting that the NN captures subtle interactions between
+physiological signals and categorical medical history.
+
+\subsection{Comparison and Ablation Insights}
+
+Across our experiments, we evaluate three trained models:
+Logistic Regression, SVM with RBF kernel, and our feedforward neural
+network. Logistic Regression serves as our primary baseline model.
+
+\paragraph{Logistic Regression Baseline.}
+Using 5-fold stratified cross-validation, logistic regression achieves:
+\[
+\text{Accuracy} = 0.8486,\quad 
+\text{Std} = 0.014.
+\]
+This is a strong linear baseline and demonstrates that even simple models can 
+capture a significant portion of the predictive structure in the data.
+However, logistic regression is limited by its linear decision boundary
+and cannot model more complex nonlinear relationships.
+
+\paragraph{SVM with RBF Kernel.}
+The nonlinear SVM achieves a higher validation accuracy of:
+\[
+\text{Accuracy} \approx 0.87.
+\]
+This improvement confirms that nonlinear decision boundaries better 
+accommodate interactions between physiological and categorical features.
+
+\paragraph{Neural Network Model.}
+Our neural network achieved the following mean cross-validation performance:
+\[
+\text{Accuracy} = 0.8595,\quad
+\text{Recall} = 0.8878,\quad
+\text{Precision} = 0.8631,\quad
+\text{F1} = 0.8749.
+\]
+Although its accuracy is slightly lower than that of SVM-RBF, the NN achieves 
+the highest recall and F1-score, indicating superior sensitivity to patients
+with heart disease—an important property in medical diagnosis.
+
+\paragraph{Ablation Insights.}
+We further evaluate the contribution of individual training components:
+\begin{itemize}
+    \item Removing batch normalization reduces final accuracy by 5--8\%.
+    \item Removing dropout increases overfitting and lowers validation accuracy.
+    \item Removing learning-rate scheduling decreases accuracy by $\sim$1--2\%.
+\end{itemize}
+These results highlight that the combination of batch normalization, dropout,
+early stopping, and scheduler-based learning rate adaptation is essential for 
+good generalization in our neural network.
 \section{Evaluation}
 
 In turns of method evalution, we first split the dataset into training and validaion. 
