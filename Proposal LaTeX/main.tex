@@ -46,28 +46,7 @@ crucial for reducing severe outcomes. As outlined in our project proposal, the
 goal of this work is to develop a reliable classification model that can
 identify high-risk patients using routinely collected medical measurements.
 
-    Building on prior studies, our project uses a supervised learning
-pipeline based on Principal Component Analysis (PCA) and an RBF-kernel SVM
-classifier. We preprocess the data with a column transformer that standardizes
-numerical features and applies one-hot encoding to categorical features, then
-apply PCA and keep the number of components according to the Kaiser
-criterion~\cite{kaiser1960factor}. The resulting low-dimensional
-representations are fed into an RBF-SVM, and the full pipeline is evaluated on
-the Kaggle Heart Failure Prediction dataset~\cite{heartfailure_kaggle} using
-stratified 5-fold cross validation with standard metrics (accuracy, precision, recall, F1-score, and ROC–AUC).
-
-% ============================================================
-\section{Related Work}
-
-Our project builds directly on the foundation built in
-Process Report and TA's Feedback, where we considered both the clinical motivation and the technical
-approaches. In that proposal, we discussed the limitations of traditional diagnostic methods and highlighted the
-importance of ML models that can identify  multi-feature interactions such as age, cholesterol level, chest pain type, and 
-ECG-related measurements, which observations align with prior work showing that 
-heart disease prediction is well suited to ML due to its 
-multivariate and non-linear nature.
-
-As we talked about in M1, several existing studies have explored this predictive task using classical and
+    As we talked about in M1, several existing studies have explored this predictive task using classical and
 modern machine learning techniques. Logistic regression remains a common 
 baseline method, as demonstrated by Awan \cite{musmanaslamawan_heartdisease_logistic},
 who achieved approximately 85\% accuracy on the Kaggle using minimal
@@ -75,17 +54,25 @@ feature engineering. More advanced pipelines integrate supervised feature
 selection and dimensionality reduction. The Chi-Square + PCA framework proposed 
 by Gárate-Escamila et al. \cite{GARATEESCAMILA2020100330} achieved up to 99\%
 accuracy on multiple UCI heart disease datasets, motivating our decision in
-Milestone~1 to incorporate both Chi-Square filtering and PCA into our own
+Milestone 1 to incorporate both Chi-Square filtering and PCA into our own
 preprocessing pipeline.
 
-Moreover, foundational statistic work such as Kaiser factor analysis criterion
-\cite{kaiser1960factor} provides justification for retaining only
-principal components with eigenvalues greater than one, a rule we apply in our
-dimensionality reduction stage. Other work has examined optimization strategies 
-for medical classification models, including scalable L1-regularized training
-\cite{andrew2007scalable} and multi-task predictive structure learning
-\cite{Ando2005}, which highlight broader approaches to improving generalization
-when datasets are small—one of the challenges noted in our proposal.
+    However, after progress report we found out that these advanced feature engineering methods usually applies on complex non-linear datatsets. Which in our case, 
+    it is not neccessary to apply Chi-Squre + PCA combination, since the Kaggle dataset is relatively clean and simple. So, we decided to only apply PCA as our feature engineering method.
+
+    Building on prior work and combined with current new discovery, our project uses a supervised learning
+pipeline based on Principal Component Analysis (PCA) and an RBF-kernel SVM
+classifier. We preprocess the data with a column transformer that standardizes
+numerical features and applies one-hot encoding to categorical features, then
+apply PCA and keep the number of components that has eigenvalues greater than one according to the Kaiser
+criterion~\cite{kaiser1960factor}. The resulting low-dimensional
+representations are fed into an RBF-SVM, and the full pipeline is evaluated on
+the Kaggle Heart Failure Prediction dataset~\cite{heartfailure_kaggle} using
+stratified 5-fold cross validation with standard metrics (accuracy, precision, recall, F1-score, ROC–AUC, and confusion matrix).
+
+
+
+% ============================================================
 
 \section{Dataset and Preprocessing} 
 
