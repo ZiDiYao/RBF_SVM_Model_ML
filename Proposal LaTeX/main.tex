@@ -289,6 +289,22 @@ With SVM-RBF, we evaluate it's accuracy by using cross-validation, and we was on
 
 % ============================================================
 
+\section{Evaluation}
+
+In turns of method evalution, we first split the dataset into training and validaion. 
+Training dataset with 80\% of the data, while validation dataset with 20\% of the data.
+\subsection{Evaluation Method}
+In our evaluation stage, we use stratified K-fold cross-validation. The reason for this choice is that our dataset contains only 918 patient records, and using a fixed train/validation/test split may lead to overfitting due to the small number of data points.
+
+\subsection{Metrics}
+
+Same as progress report, we have in total six metrics to evaluate our model performance. The metrics used in this project include \textbf{accuracy, recall, precision, F1-score, and AUC–ROC and Confusion Matrix}. Our rationale for choosing these metrics is as follows.
+First, in disease prediction, precision (closely related to Type II error) is especially important. Hospitals cannot afford to misclassify a patient with the disease as healthy. Therefore, minimizing false negatives is crucial.
+In addition, we use the AUC–ROC curve because it is an effective way to evaluate the overall performance of a binary classifier.
+
+We decided to keep using the metrics reported in our progress report, as these six metrics provide a sufficient and well-rounded understanding of our model’s performance for this task.
+% ============================================================
+
 \section{Process}
 
 In our project proposal we planned to follow the Chi-square + PCA + RBF--SVM
@@ -324,18 +340,6 @@ results.
 
 \section{Evaluation Strategy and Results (Error Anaysis) and Baseline}
 
-In turns of method evalution, we first split the dataset into training and validaion. 
-Training dataset with 80\% of the data, while validation dataset with 20\% of the data.
-\subsection{Evaluation Method}
-In our evaluation stage, we use stratified K-fold cross-validation. The reason for this choice is that our dataset contains only 918 patient records, and using a fixed train/validation/test split may lead to overfitting due to the small number of data points.
-
-\subsection{Metrics}
-\[
-\textbf{SVM with RBF Kernel Model Performance}:
-\]
-Same as progress report, we have in total six metrics to evaluate our model performance. The metrics used in this project include \textbf{accuracy, recall, precision, F1-score, and AUC–ROC and Confusion Matrix}. Our rationale for choosing these metrics is as follows.
-First, in disease prediction, precision (closely related to Type II error) is especially important. Hospitals cannot afford to misclassify a patient with the disease as healthy. Therefore, minimizing false negatives is crucial.
-In addition, we use the AUC–ROC curve because it is an effective way to evaluate the overall performance of a binary classifier.
 
 
 % =========================================================
