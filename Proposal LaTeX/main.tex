@@ -716,7 +716,41 @@ The figures are listed in the last page, please check them out
 \caption{Confusion matrices.}
 \end{figure}
 
-\subsection{Error Anaysis}
+\subsection{7.2 Error Analysis}
+
+To better understand the behaviour of our PCA + RBF–SVM pipeline, we examined
+the misclassification patterns across the five cross-validation folds. The
+confusion matrix aggregated over all folds (Figure~4) shows that the model
+produces noticeably more false negatives (patients with heart disease predicted
+as healthy) than false positives. Specifically, out of 918 total samples, the
+model incorrectly labels 74 positive cases as negative, compared to 53 negative
+cases mislabeled as positive.
+
+This imbalance between false negatives and false positives is meaningful in the
+medical context. A false negative is the most serious type of error in disease
+screening, since an undetected patient would miss timely follow-up tests or
+treatment. Although our model’s recall of approximately 0.90 indicates that the
+majority of heart disease cases are successfully identified, the remaining 10\%
+of missed detections represent an important limitation.
+
+A closer inspection of the misclassified samples reveals that many of the false
+negative cases occur among patients whose feature values lie near the decision
+boundary after PCA projection. These borderline samples often exhibit moderate
+values on diagnostic measurements such as \textit{Oldpeak} and \textit{RestingBP}, which
+makes them difficult to separate even when using a nonlinear kernel.
+
+Another observation is that the RBF kernel is highly sensitive to scaling and
+parameterization. Even though the PCA transformation helps regularize the input
+space, small variations in the compressed feature representation can still lead
+to shifts in the learned boundary. This explains why our accuracy across folds
+remains stable, but individual misclassified points exhibit variability.
+
+Overall, the error analysis indicates that while the SVM model performs strongly
+on average metrics, future improvements should specifically target reducing
+false negatives, possibly through cost-sensitive training, calibration of the
+decision threshold, or using an ensemble model that better captures ambiguous
+cases.
+
 
 
 \subsection{Comparison with the Logistic Regression Baseline}
@@ -742,13 +776,54 @@ RBF--SVM pipeline (ours)       & 0.86 & 0.86 & 0.90 & 0.88 \\
 \end{tabular}
 \end{table}
 
-\subsection{Comparison with the Neural Network}
+\subsection{7.4 Comparison with the Neural Network}
+
+In addition to the Logistic Regression baseline and our main RBF–SVM model, we
+implemented a three-layer feedforward neural network as an additional nonlinear
+baseline. The neural network uses the 11 raw clinical features (after basic
+numeric encoding) without PCA or other dimensionality reduction. The model
+architecture consists of two hidden layers of sizes 32 and 16 with ReLU
+activation, followed by a final linear layer that outputs logits for the two
+classes. The network was trained using the Adam optimizer and evaluated using
+the same 5-fold stratified cross-validation procedure as our other models.
+
+Across the five folds, the neural network achieves mean performance of:
+\[
+\text{Accuracy} = 0.8595,\quad
+\text{Recall} = 0.8878,\quad
+\text{Precision} = 0.8631,\quad
+\text{F1-score} = 0.8749.
+\]
+The neural network performs similarly to the RBF–SVM, with slightly higher
+precision than the SVM but slightly lower recall. This behaviour is expected,
+since the MLP tends to form smoother decision regions and may be less sensitive
+to fine-grained boundary curvature compared to an RBF kernel.
+
+Interestingly, despite its relatively simple structure and limited depth, the
+neural network performs competitively with the SVM pipeline. This suggests that
+the heart disease dataset is moderately linearly separable after appropriate
+encoding, and that both the SVM and MLP models successfully capture the key
+nonlinear relationships needed for accurate classification.
+
+However, the SVM still retains an advantage in recall (0.9001 vs. 0.8878), which
+is critical in a medical screening task. Missing a heart disease case carries a
+much higher cost than issuing a false alarm, and in this context, the SVM's
+stronger sensitivity to positive cases is a clinically meaningful benefit. On
+the other hand, the neural network provides a lightweight, easily trainable
+alternative with competitive overall performance and may generalize better when
+larger datasets are available.
+
+Overall, the comparison confirms that while both nonlinear models outperform the
+logistic regression baseline, the PCA + RBF–SVM pipeline remains the preferred
+method for this dataset due to its higher recall and stable cross-validation
+behaviour.
+
 
 % ============================================================
 \section*{Team Contributions}
 Jeffrey Lin: SVM + RBF Model, Evaluation, DataSet Proprocessing and related work \\
 ZiDi Yao: Logistic regression Model baseline, Model Input, Introduction, Progress, Result (7.1 and 7.2)\\
-Ke Ma: neural network model baseline, Result (7.2 and 7.), and Model Implementation\\
+Ke Ma: neural network model baseline, Result (7.2 and 7.4), and Model Implementation\\
 
 % ============================================================
 % Bibliography
