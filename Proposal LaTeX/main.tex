@@ -313,6 +313,13 @@ results.
 
 % =========================================================
 \subsection{Results}
+
+\paragraph{Disclaimer.}
+During the process of writing this report we carefully re-ran and cross-checked all our experiments, and we observed that none of the models we tried --- including the PCA + RBF--SVM pipeline, the Logistic Regression baseline, and neural network
+ --- consistently achieved a test accuracy above 90\%. On Kaggle there is one solution claiming accuracies around 90\% on this heart disease dataset; 
+ however, these approaches do not provide full baseline code or detailed validation procedures, so we were not able to reproduce or verify those numbers in a fair and transparent way. In our experiments, overall accuracy differences between models remain relatively small, but the PCA + RBF--SVM model achieves noticeably higher recall and F1-score for the positive (heart disease) class. 
+ Since in a medical screening context detecting true cases of heart disease is more critical than maximising raw accuracy alone, we consider this model preferable despite the lack of a dramatic accuracy gap over simpler baselines.
+
 The figures are listed in the last page, please check them out
 
 \begin{figure}[H]
