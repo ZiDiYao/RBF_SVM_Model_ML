@@ -289,7 +289,7 @@ In addition, we use the AUC–ROC curve because it is an effective way to evalua
 We decided to keep using the metrics reported in our progress report, as these six metrics provide a sufficient and well-rounded understanding of our model’s performance for this task.
 % ============================================================
 
-\section{Process}
+\section{Progress}
 
 In our project proposal we planned to follow the Chi-square + PCA + RBF--SVM
 framework from Gárate-Escamila et al.~\cite{GARATEESCAMILA2020100330}. In the
@@ -298,7 +298,7 @@ version of this pipeline: nominal features such as \texttt{ChestPainType},
 \texttt{RestingECG}, and \texttt{ST\_Slope} were encoded as integers
 (e.g., ATA~$\rightarrow 0$, NAP~$\rightarrow 1$, ASY~$\rightarrow 2$), and we
 evaluated an RBF--SVM using a simple 80\%/20\% train--test split. This gave us
-an initial accuracy of about 85\%, which confirmed that the approach was
+an initial accuracy of about 84\%, which confirmed that the approach was
 reasonable but left room for improvement.
 
 In the progress report, the TA gave us two concrete suggestions: (1) replace label
@@ -387,9 +387,9 @@ RBF--SVM pipeline (ours)       & 0.86 & 0.86 & 0.90 & 0.88 \\
 
 % ============================================================
 \section*{Team Contributions}
-Jeffrey Lin:  \\
-ZiDi Yao:\\
-Ke Ma: \\
+Jeffrey Lin: SVM + RBF Model, Evaluation, DataSet Proprocessing and related work \\
+ZiDi Yao: Logistic regression Model baseline, Model Input, Introduction, Progress, Result (7.1 and 7.2)\\
+Ke Ma: neural network model baseline, Result (7.3), and Model Implementation\\
 
 % ============================================================
 % Bibliography
