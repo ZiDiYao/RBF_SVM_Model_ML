@@ -185,6 +185,8 @@ INPUT ./confuse_matrix.png
 INPUT ./main.bbl
 INPUT ./main.bbl
 INPUT main.bbl
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT main.aux
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb
