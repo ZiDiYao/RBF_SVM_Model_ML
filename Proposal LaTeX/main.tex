@@ -52,13 +52,15 @@ PCA feature-engineering pipeline. We also present initial results from models
 such as SVM, Logistic Regression, and Random Forest, and outline feedback from
 the TA along with our planned next steps.
 
-Building on these prior studies, our project adopts a supervised learning pipeline that combines Chi-square feature selection and Principal Component Analysis (PCA) with an RBF-kernel SVM classifier. 
-We first apply a column transformer with median imputation and standardization for numerical features, and most-frequent imputation with one-hot encoding for categorical features;
-Then we use a MinMaxScaler followed by \texttt{SelectKBest} with the Chi-square statistic to keep the top-$k$ informative features, 
-and apply PCA with the number of components chosen using the Kaiser criterion~\cite{GARATEESCAMILA2020100330,kaiser1960factor}. 
-The low-dimensional representation is fed into an RBF-SVM, and the full pipeline is evaluated on the Kaggle Heart Failure Prediction dataset~\cite{heartfailure_kaggle} 
-using stratified $k$-fold cross validation, reporting accuracy, precision, recall, F1-score, and AUC as in previous work.
-
+Building on these prior studies, our project uses a supervised learning
+pipeline based on Principal Component Analysis (PCA) and an RBF-kernel SVM
+classifier. We preprocess the data with a column transformer that standardizes
+numerical features and applies one-hot encoding to categorical features, then
+apply PCA and keep the number of components according to the Kaiser
+criterion~\cite{kaiser1960factor}. The resulting low-dimensional
+representations are fed into an RBF-SVM, and the full pipeline is evaluated on
+the Kaggle Heart Failure Prediction dataset~\cite{heartfailure_kaggle} using
+stratified 5-fold cross validation with standard metrics (accuracy, precision, recall, F1-score, and ROC–AUC).
 
 % ============================================================
 \section{Related Work}
@@ -243,43 +245,35 @@ the corresponding feature names were exported to
 % This section corresponds to Item 3 in the project instructions.
 \section{Model Inputs (Features)}
 
-During our data preprocessing phase, we utilize \texttt{scikit-learn} built-in function \texttt{pipeline} to transform our data before feeding into Machine Learning Model
-\vspace{1em}
-The dataset has both numerical and categorical features, in the previous part we mentioned that for each numerical part we standardized them, 
-while for categorical part we used one-hot encoding to transform them into vectors.
-\vspace{1em}
-In result, we have total 18 features after preprocessing, including 8 numerical features and 10 categorical features ``(One-Hot Encoding)''.
-\vspace{1em}
-Something different from progress report, as we realize our dataset is way too easy compare to the heart diease dataset from the paper. So, this time we decided
-to only use PCA method as our feature engineering method, instead of using Chi-square + PCA method \cite{GARATEESCAMILA2020100330}.
-\vspace{1em}
+During our data preprocessing phase, we use \texttt{scikit-learn} 
+\texttt{Pipeline} and \texttt{ColumnTransformer} to transform the raw
+attributes before training. Numerical features (Age, RestingBP, Cholesterol,
+MaxHR, Oldpeak, FastingBS) are imputed with the median and standardized, while
+categorical features (Sex, ChestPainType, RestingECG, ExerciseAngina, ST\_Slope)
+are converted into one-hot vectors. After this step each patient is represented
+by an 18-dimensional feature vector, matching the one-hot layout described in
+Table~\ref{tab:rawfeatures}.
+
+Motivated by our progress report and TA feedback, in the final system we use
+PCA as our only feature-engineering method, instead of the Chi-square + PCA
+combination proposed in~\cite{GARATEESCAMILA2020100330}.
 
 \begin{itemize}
-    \item \textbf{PCA:}  
-    After feature selection, we then applied Principal Component Analysis (PCA) to reduce the dimensionality of the selected features. PCA works by identifying the directions (principal components) in which the data varies the most, and projecting the data onto these directions.
-
-    To determine the number of principal components to retain, we adopt the \textbf{Kaiser criterion} \cite{kaiser1960factor}. 
-    This rule suggests keeping only components with eigenvalues greater than 1.0.
-
-    After doing a experiments of calculating eigenvalues for every single increase of principal components, we found that the first five components have eigenvalues greater than 1.0. Thus, we decided to retain five principal components for our final feature representation.   
+    \item \textbf{PCA.}
+    We apply Principal Component Analysis (PCA) to the standardized and
+    one-hot encoded features to reduce dimensionality. PCA finds orthogonal
+    directions (principal components) that capture the largest variance in the
+    data and projects each sample onto these directions. To choose the number
+    of components we adopt the Kaiser criterion~\cite{kaiser1960factor},
+    keeping only components with eigenvalues greater than 1. In our
+    experiments the first five components satisfy this rule, so we retain
+    five principal components for the final representation.
 \end{itemize}
 
-Hence, each patient sample is represented as a compact (data, 5) feature vector summarizing the most informative physiological and categorical characteristics. 
-This final feature set is then used as input to our machine learning model.
+Hence, each patient sample is represented as a compact 5-dimensional feature
+vector summarizing the most informative physiological and categorical
+characteristics, which is then used as input to our machine learning models.
 
-% ============================================================
-% \section{Model Implementation}
-% Describe the machine learning model(s) used.
-
-% Examples:
-% \begin{itemize}
-%     \item RBF-kernel Support Vector Machine (SVM)
-%     \item Justification for using SVM
-%     \item Hyperparameters used (C, gamma)
-%     \item Training pipeline and libraries (scikit-learn)
-% \end{itemize}
-
-% This section corresponds to Item 4 of the project instructions.
 
 \section{Model Implementation}
 
@@ -297,23 +291,44 @@ K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)
 \]
 The model was optimized using the \texttt{libsvm} implementation, which employs a coordinate descent solver with kernel caching for efficiency.
 
-To evaluate our implementation, we compared SVM–RBF against two baseline models: 
-\begin{itemize}
-    \item \textbf{Logistic Regression:} This baseline model was chosen from kaggle \cite{musmanaslamawan_heartdisease_logistic}, where the author didn't use features selection or dimensionality reduction, and he was able to achieve 85\% accuracy.
-    \item \textbf{Random Forest:} From this paper \cite{GARATEESCAMILA2020100330}, the author has 98\% accuracy by using Random Forest with Chi-PCA method. However, he used a 74 features and around 1000 datapoint of heartdiease dataset from UCL.
-\end{itemize}
-
-With SVM-RBF, we evaluate it's accuracy by using cross-validation, and we was only able to achieve 86\% of accuracy.
-
-We then use Random Forest and Logistic Regression as our model, Randomforest was able to achieve 87\% accuracy, while Logistic Regression was able to achieve 85\% accuracy.
-
-Varies reason can be introduces in here, such as different dataset, the quality of dataset, or minor changes in the preprocessing phase that effect the data values meaning.
-
-In future iterations, we plan to explore a \textbf{neural network architecture} (e.g., a multi-layer perceptron) to capture more complex feature interactions and potentially improve generalization performance. 
-We also intent to change the detail in our preprocessing phase, such as using different order, or different preprocessing tools to present the data in a better way.
+With SVM-RBF, we evaluate it's accuracy by using cross-validation, and we was only able to achieve 87\% of accuracy.
 
 % ============================================================
-\section{Evaluation Strategy and Results}
+
+\section{Process}
+
+In our project proposal we planned to follow the Chi-square + PCA + RBF--SVM
+framework from Gárate-Escamila et al.~\cite{GARATEESCAMILA2020100330}. In the
+early stage of the project (before the progress report), we implemented a first
+version of this pipeline: nominal features such as \texttt{ChestPainType},
+\texttt{RestingECG}, and \texttt{ST\_Slope} were encoded as integers
+(e.g., ATA~$\rightarrow 0$, NAP~$\rightarrow 1$, ASY~$\rightarrow 2$), and we
+evaluated an RBF--SVM using a simple 80\%/20\% train--test split. This gave us
+an initial accuracy of about 85\%, which confirmed that the approach was
+reasonable but left room for improvement.
+
+In the progress report, the TA gave us two concrete suggestions: (1) replace label
+encoding of multi-class categorical variables with one-hot encoding, and (2)
+experiment with a different models like a neural network. 
+After that feedback we revised our preprocessing: we switched to
+one-hot encoding (either via \texttt{pandas.get\_dummies} or 
+\texttt{OneHotEncoder} in a \texttt{ColumnTransformer}), which expanded the
+feature space to 18 columns and removed the artificial ordering implied by the
+integer codes. 
+
+Our original plan to strictly reproduce a full Chi-square + PCA pipeline
+changed slightly as we test more with the Kaggle dataset. Because this
+dataset has only 11 original features and relatively clean structure, we found
+that PCA alone already captures most of the variance, and chi-square filtering
+did not noticeably increase performance. So, we simplified the feature
+engineering stage to focus on PCA and foces our comparison on three
+models: Neural Network (as a simple baseline), RBF--SVM (our main model),
+and LightGBM + SHAP (The method found online). Overall, we followed the spirit of
+our original plan (PCA + SVM with additional baselines), but refined the
+details of preprocessing and evaluation in response to TA feedback and empirical
+results.
+
+\section{Evaluation Strategy and Results (Error Anaysis) and Baseline}
 
 In turns of method evalution, we first split the dataset into training and validaion. 
 Training dataset with 80\% of the data, while validation dataset with 20\% of the data.
@@ -328,6 +343,8 @@ Same as progress report, we have in total six metrics to evaluate our model perf
 First, in disease prediction, precision (closely related to Type II error) is especially important. Hospitals cannot afford to misclassify a patient with the disease as healthy. Therefore, minimizing false negatives is crucial.
 In addition, we use the AUC–ROC curve because it is an effective way to evaluate the overall performance of a binary classifier.
 
+
+% =========================================================
 \subsection{Results}
 The figures are listed in the last page, please check them out
 
@@ -358,9 +375,9 @@ The figures are listed in the last page, please check them out
 
 % ============================================================
 \section*{Team Contributions}
-Jeffrey Lin: Section 4 to 5 and implementation of model  \\
-ZiDi Yao: Section 1 to 3 and raw data introduction and processing\\
-Ke Ma: Section 6 to 7 and data validation and clean\\
+Jeffrey Lin:  \\
+ZiDi Yao:\\
+Ke Ma: \\
 
 % ============================================================
 % Bibliography
