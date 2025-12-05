@@ -255,21 +255,28 @@ characteristics, which is then used as input to our machine learning models.
 
 \section{Model Implementation}
 
-We have implemented a supervised learning pipeline for binary classification of heart disease presence. 
+We implement a supervised learning pipeline for binary classification of heart disease presence. 
 Our main model is a \textbf{Support Vector Machine (SVM)} with a \textbf{Radial Basis Function (RBF)} kernel, implemented using the \texttt{scikit-learn} library. 
-This kernel choice allows the decision boundary to be nonlinear, which is important given the heterogeneous mixture of categorical and numerical medical features in the dataset. 
+The RBF kernel allows the classifier to learn nonlinear decision boundaries, which is important given the heterogeneous mixture of numerical and categorical medical features in the dataset.
 
-\textbf{Loss Function:}
+The decision function of the SVM is defined by a weight vector $\mathbf{w}$ and bias $b$ in the (implicit) feature space. 
+The model is trained by minimizing the standard hinge-loss objective with $\ell_2$ regularization:
 \[
-\min_{\mathbf{w},b} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_{i=1}^n \max(0, 1 - y_i(\mathbf{w}^\top \phi(\mathbf{x}_i) + b))
+\min_{\mathbf{w},b} \; \frac{1}{2}\|\mathbf{w}\|^2 
+    + C \sum_{i=1}^n \max\bigl(0,\, 1 - y_i(\mathbf{w}^\top \phi(\mathbf{x}_i) + b)\bigr),
 \]
-where $C$ is the penalty parameter controlling the trade-off between the margin size and misclassification tolerance, and $\phi(\cdot)$ denotes the nonlinear mapping induced by the \textbf{RBF Kernel:}
+where $C > 0$ is a penalty parameter controlling the trade-off between margin size and misclassification tolerance, and $\phi(\cdot)$ denotes the nonlinear feature mapping induced by the kernel. 
+In our case we use the \textbf{RBF kernel}
 \[
-K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)
+K(\mathbf{x}_i, \mathbf{x}_j) 
+= \exp\bigl(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2\bigr),
 \]
-The model was optimized using the \texttt{libsvm} implementation, which employs a coordinate descent solver with kernel caching for efficiency.
+with $\gamma > 0$ controlling the effective radius of influence of each training example. 
+The optimization is carried out by the \texttt{libsvm} implementation in \texttt{scikit-learn}, which employs an efficient decomposition method with kernel caching.
 
-With SVM-RBF, we evaluate it's accuracy by using cross-validation, and we was only able to achieve 87\% of accuracy.
+We evaluate the SVM--RBF model using 5-fold stratified cross-validation on the processed feature set. 
+Across the five folds, the model achieves an average accuracy of approximately \textbf{87\%}, confirming that SVM with an RBF kernel is a strong nonlinear classifier for this heart disease prediction task.
+
 
 % ============================================================
 
