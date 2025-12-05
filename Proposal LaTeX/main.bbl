@@ -9,18 +9,40 @@ M.Usman~Aslam Awan.
 \bibitem{heartfailure_kaggle}
 Fedesoriano.
 \newblock Heart failure prediction dataset.
-\newblock \url{https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction}, 2020.
+\newblock
+  \url{https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction},
+  2020.
 \newblock Accessed 2025-11-14.
 
 \bibitem{GARATEESCAMILA2020100330}
 Anna~Karen Gárate-Escamila, Amir {Hajjam El Hassani}, and Emmanuel Andrès.
-\newblock Classification models for heart disease prediction using feature selection and pca.
+\newblock Classification models for heart disease prediction using feature
+  selection and pca.
 \newblock {\em Informatics in Medicine Unlocked}, 19:100330, 2020.
+
+\bibitem{ivanov2020tabular}
+Sergey Ivanov and Lucas~N. Joppa.
+\newblock Why neural networks struggle with tabular data---and what can be done
+  about it.
+\newblock {\em arXiv preprint arXiv:2005.08926}, 2020.
+
+\bibitem{jayadeva2007twinSVM}
+Jayadeva, R.~Khemchandani, and S.~Chandra.
+\newblock Twin support vector machines for pattern classification.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  29(5):905--910, 2007.
 
 \bibitem{kaiser1960factor}
 Henry~F. Kaiser.
 \newblock The application of electronic computers to factor analysis.
-\newblock {\em Educational and Psychological Measurement}, 20(1):141--151, 1960.
+\newblock {\em Educational and Psychological Measurement}, 20(1):141--151,
+  1960.
 \newblock Original work published 1960.
+
+\bibitem{vdSchaar2019healthcare}
+Mihaela van~der Schaar and Ahmed~M. Alaa.
+\newblock Machine learning for healthcare: review, opportunities and
+  challenges.
+\newblock {\em Nature Medicine}, 25(1):44--56, 2019.
 
 \end{thebibliography}
